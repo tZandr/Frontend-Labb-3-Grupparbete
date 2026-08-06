@@ -1,5 +1,5 @@
 import Sidebar from "./Sidebar";
-import DashboardPage from "../../../pages/DashboardPage";
+import DashboardPage from "../../../pages/Dashboard";
 import "./DashboardLayout.scss";
 
 export default function DashboardLayout() {

@@ -1,0 +1,97 @@
+@use "../../../styles/variables" as *;
+
+.sidebar {
+  width: $sidebar-width;
+  min-height: 100vh;
+  background-color: $color-primary;
+  color: $color-text-on-dark;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+
+  &__logo {
+    font-family: Georgia, serif;
+    font-size: 1.5rem;
+    margin: 0;
+  }
+
+  &__user {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  &__avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: $moss-green;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+  }
+
+  &__name {
+    margin: 0;
+    font-weight: 600;
+  }
+
+  &__handle {
+    margin: 0;
+    font-size: 0.875rem;
+    opacity: 0.8;
+  }
+
+  &__nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  &__nav-item {
+    padding: 0.75rem 1rem;
+    border-radius: $radius-lg;
+    color: $color-text-on-dark;
+    text-decoration: none;
+
+    &--active {
+      background-color: $moss-green;
+    }
+
+    &:focus-visible {
+      outline: 2px solid $peach-protein;
+      outline-offset: 2px;
+    }
+  }
+
+  &__streak {
+    text-align: center;
+    padding: 1rem;
+    border-radius: $radius-lg;
+    background-color: rgba(255, 255, 255, 0.08);
+  }
+
+  &__streak-number {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0;
+  }
+
+  &__log-button {
+    margin-top: auto;
+    padding: 1rem;
+    border: none;
+    border-radius: $radius-xl;
+    background-color: $moss-green;
+    color: $color-text-on-dark;
+    font-size: 1rem;
+    cursor: pointer;
+
+    &:focus-visible {
+      outline: 2px solid $peach-protein;
+      outline-offset: 2px;
+    }
+  }
+}

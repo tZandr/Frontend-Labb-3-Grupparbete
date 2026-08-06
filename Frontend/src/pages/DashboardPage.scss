@@ -1,0 +1,29 @@
+@use "../styles/variables" as *;
+
+.dashboard-page {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+
+&__title {
+    margin: 0;
+    color: $color-text;
+}
+
+&__subtitle {
+    margin: 0;
+    color: $color-text-muted;
+}
+
+&__stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+&__bottom {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+}

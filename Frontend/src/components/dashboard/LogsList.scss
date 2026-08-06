@@ -1,0 +1,64 @@
+@use "../../styles/variables" as *;
+
+.logs-list {
+    background-color: $color-surface;
+    border-radius: $radius-lg;
+    padding: 1.25rem;
+    box-shadow: 0 2px 12px rgba(53, 64, 36, 1);
+
+    &__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+    }
+
+    &__title {
+        margin: 0;
+        font-size: 1.1rem;
+        color: $color-text;
+    }
+
+    &__link {
+        color: $moss-green;
+        text-decoration: none;
+        font-size: 0.9rem;
+    }
+
+    &__list {
+        list-style: none;   
+        margin: 0;           
+        padding: 0;                 
+        display: flex;                 
+        flex-direction: column;         
+        gap: 1rem;                      
+      }
+
+      &__item {
+        padding-bottom: 1rem;
+        border-bottom: 1px solid $peach-protein;
+      }
+
+      &__item:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+      }
+
+      &__day {
+        margin: 0 0 0.35rem;
+        font-weight: 700;
+        color: $color-text;
+      }
+
+      &__scores {
+        margin: 0 0 0.35rem;
+        font-size: 0.9rem;
+        color: $color-text-muted;
+      }
+
+      &__note {
+        margin: 0;
+        font-size: 0.95rem;
+        color: $color-text;
+      }
+}

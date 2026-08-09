@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type { FormEvent } from "react";
-import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { isAuthenticated, login } from "../auth";
 import "./Login.scss";
 
@@ -43,6 +43,7 @@ export default function Login() {
         </label>
         {error && <p className="login-form__error" role="alert">{error}</p>}
         <button type="submit" disabled={isSubmitting}>{isSubmitting ? "Logging in…" : "Log in"}</button>
+        <p className="login-form__switch">New to Bloom? <Link to="/signup">Create an account</Link></p>
       </form>
     </main>
   );

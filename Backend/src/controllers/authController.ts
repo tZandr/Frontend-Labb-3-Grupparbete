@@ -25,7 +25,8 @@ export async function register(req: Request, res: Response) {
     if (error instanceof Error && error.message === 'EMAIL_ALREADY_EXISTS') {
       return res.status(409).json({ message: 'Email already exists' });
     }
-    return res.status(500).json({ message: 'Something went wrong during registration' });
+    console.error('Registration failed:', error);
+    return res.status(503).json({ message: 'Registration is temporarily unavailable. Please try again shortly.' });
   }
 }
 
@@ -43,6 +44,7 @@ export async function login(req: Request, res: Response) {
     if (error instanceof Error && error.message === 'INVALID_CREDENTIALS') {
       return res.status(401).json({ message: 'Invalid email or password' });
     }
-    return res.status(500).json({ message: 'Something went wrong during login' });
+    console.error('Login failed:', error);
+    return res.status(503).json({ message: 'Login is temporarily unavailable. Please try again shortly.' });
   }
 }

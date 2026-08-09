@@ -1,16 +1,16 @@
 export const TOKEN_STORAGE_KEY = "bloom.auth.token";
 export const USER_STORAGE_KEY = "bloom.auth.user";
 
-export type AuthUser = { id: number; name: string; email: string };
+export type AuthUser = { id: string; name: string; email: string };
 export type LoginResponse = { token: string; user: AuthUser };
 
 const apiBaseUrl = import.meta.env.VITE_API_URL ?? "http://localhost:3000/api";
 
-export async function login(email: string, password: string): Promise<LoginResponse> {
-  const response = await fetch(`${apiBaseUrl}/auth/login`, {
+async function authenticate(path: "login" | "register", body: Record<string, string>): Promise<LoginResponse> {
+  const response = await fetch(`${apiBaseUrl}/auth/${path}`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ email, password }),
+    body: JSON.stringify(body),
   });
   const data = (await response.json().catch(() => ({}))) as LoginResponse & { message?: string };
 
@@ -20,6 +20,14 @@ export async function login(email: string, password: string): Promise<LoginRespo
   localStorage.setItem(TOKEN_STORAGE_KEY, data.token);
   localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(data.user));
   return data;
+}
+
+export function login(email: string, password: string): Promise<LoginResponse> {
+  return authenticate("login", { email, password });
+}
+
+export function register(name: string, email: string, password: string): Promise<LoginResponse> {
+  return authenticate("register", { name, email, password });
 }
 
 export function isAuthenticated(): boolean {

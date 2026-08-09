@@ -12,7 +12,7 @@ export interface LoginRequest {
 export interface AuthResponse {
   token: string;
   user: {
-    id: number;
+    id: string;
     name: string;
     email: string;
   };

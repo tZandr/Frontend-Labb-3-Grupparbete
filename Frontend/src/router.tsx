@@ -5,6 +5,7 @@ import Profile from './pages/Profile';
 import DashboardLayout from './layouts/dashboard/DashboardLayout';
 import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
+import Signup from './pages/Signup';
 import Settings from './pages/Settings';
 import Support from './pages/Support';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -20,6 +21,10 @@ export const router = createBrowserRouter([
       {
         path: '/login',
         element: <Login />,
+      },
+      {
+        path: '/signup',
+        element: <Signup />,
       },
       {
         element: <ProtectedRoute />,

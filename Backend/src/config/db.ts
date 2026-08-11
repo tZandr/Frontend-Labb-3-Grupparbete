@@ -1,13 +1,20 @@
-import mysql from 'mysql2/promise'
-import dotenv from "dotenv"
+import { Db, MongoClient } from 'mongodb';
 
-dotenv.config();
+let database: Db | undefined;
 
-const db = mysql.createPool({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME
-})
+export async function connectToDatabase(): Promise<Db> {
+  if (database) return database;
 
-export default db;
+  const uri = process.env.MONGODB_URI;
+  if (!uri) throw new Error('MONGODB_URI is not configured');
+
+  const client = new MongoClient(uri, { serverSelectionTimeoutMS: 10_000 });
+  await client.connect();
+  database = client.db(process.env.MONGODB_DB ?? 'Bloom');
+  await database.command({ ping: 1 });
+  return database;
+}
+
+export async function getDatabase(): Promise<Db> {
+  return connectToDatabase();
+}

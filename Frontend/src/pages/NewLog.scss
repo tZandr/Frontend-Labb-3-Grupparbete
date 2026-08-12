@@ -1,0 +1,145 @@
+@use "../styles/variables" as *;
+
+.new-log {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 2rem;
+  background: $color-surface;
+  border: 1px solid $color-accent-soft;
+  border-radius: $radius-xl;
+  box-shadow: 0 12px 32px rgba(53, 64, 36, 0.08);
+
+  &__title {
+    margin: 0 0 0.4rem;
+    color: $color-text;
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.15;
+  }
+
+  &__intro {
+    margin: 0 0 1rem;
+    color: $color-text-muted;
+    font-size: 1rem;
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  &__field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    border: none;
+    margin: 0;
+    padding: 0;
+
+    legend {
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      color: $color-text-muted;
+    }
+  }
+
+  &__scale {
+    display: flex;
+    width: 100%;
+    gap: 0.45rem;
+  }
+
+  &__scale-btn {
+    flex: 1;
+    min-height: 2.8rem;
+    border: 1px solid $color-accent-soft;
+    border-radius: 0.65rem;
+    background: #fff;
+    color: $color-text;
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.18s ease;
+
+    &:hover {
+      border-color: $color-accent;
+      transform: translateY(-1px);
+    }
+
+    &--active {
+      background: $color-accent;
+      border-color: $color-accent;
+      color: $color-text;
+      box-shadow: 0 6px 14px rgba(221, 186, 174, 0.45);
+    }
+  }
+
+  &__category-group {
+    display: flex;
+    margin-top: 0.35rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  &__category-btn {
+    padding: 0.65rem 1rem;
+    border: 1px solid $color-accent-soft;
+    border-radius: 999px;
+    background: #fff;
+    color: $color-text;
+    font: inherit;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.18s ease;
+
+    &--active {
+      background: $color-primary;
+      border-color: $color-primary;
+      color: $color-text-on-dark;
+    }
+  }
+
+  select,
+  textarea {
+    width: 100%;
+    padding: 0.85rem 1rem;
+    border: 1px solid $color-accent-soft;
+    border-radius: $radius-lg;
+    background: #fff;
+    color: $color-text;
+    font: inherit;
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 110px;
+  }
+
+  &__submit {
+    align-self: flex-start;
+    margin-top: 0.25rem;
+    padding: 0.85rem 1.4rem;
+    border: none;
+    border-radius: 999px;
+    background: $color-primary;
+    color: $color-text-on-dark;
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.15s ease, opacity 0.2s ease;
+
+    &:hover {
+      transform: translateY(-1px);
+      opacity: 0.95;
+    }
+  }
+
+  &__success {
+    margin: 0;
+    color: $color-primary;
+    font-weight: 500;
+  }
+}

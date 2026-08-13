@@ -36,6 +36,7 @@ export const router = createBrowserRouter([
             children: [
               { index: true, element: <Dashboard /> },
               { path: 'new-log', element: <NewLog /> },
+              { path: 'logs/:id/edit', element: <NewLog /> },
               { path: 'profile', element: <Profile /> },
               { path: 'settings', element: <Settings /> },
               { path: 'support', element: <Support /> },

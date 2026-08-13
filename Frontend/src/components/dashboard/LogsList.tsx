@@ -1,28 +1,66 @@
+import { Link } from "react-router-dom";
+import type { LogEntry } from "../../api/logs";
 import "./LogsList.scss";
 
-export default function LogsList() {
-    return (
-        <section className="logs-list">
-            <div className="logs-list__header">
-                <h2 className="logs-list__title">Your recent logs</h2>
-                <a className="logs-list__link" href="#">
-                    See all logs
-                </a>
-            </div>
+type LogsListProps = {
+  logs: LogEntry[];
+  isLoading: boolean;
+};
 
-            <ul className="logs-list__list">
-            <li className="logs-list__item">
-                <p className="logs-list__day">Today</p>
-                <p className="logs-list__scores">Energy 4 - Mood 5 - Sleep 3</p>
-                <p className="logs-list__note">I had a great day!</p>
-            </li>
+function isSameDay(a: Date, b: Date): boolean {
+  return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
+}
 
-            <li className="logs-list__item">
-                <p className="logs-list__day">Yesterday</p>
-                <p className="logs-list__scores">Energy 3 - Mood 4 - Sleep 2</p>
-                <p className="logs-list__note">Felt a bit tired today.</p>
+function formatDay(dateString: string): string {
+  const date = new Date(dateString);
+  const today = new Date();
+  const yesterday = new Date();
+  yesterday.setDate(today.getDate() - 1);
+
+  if (isSameDay(date, today)) return "Today";
+  if (isSameDay(date, yesterday)) return "Yesterday";
+  return date.toLocaleDateString(undefined, { weekday: "long", month: "short", day: "numeric" });
+}
+
+export default function LogsList({ logs, isLoading }: LogsListProps) {
+  const loggedToday = logs.some((log) => isSameDay(new Date(log.created_at), new Date()));
+
+  return (
+    <section className="logs-list">
+      <div className="logs-list__header">
+        <h2 className="logs-list__title">Your recent logs</h2>
+        {loggedToday ? (
+          <button type="button" className="logs-list__link logs-list__link--disabled" disabled>
+            Day logged
+          </button>
+        ) : (
+          <Link className="logs-list__link" to="/dashboard/new-log">
+            + Add log
+          </Link>
+        )}
+      </div>
+
+      {isLoading ? (
+        <p className="logs-list__empty">Loading…</p>
+      ) : logs.length === 0 ? (
+        <p className="logs-list__empty">
+          No logs yet. <Link to="/dashboard/new-log">Add your first entry</Link>.
+        </p>
+      ) : (
+        <ul className="logs-list__list">
+          {logs.slice(0, 5).map((log) => (
+            <li className="logs-list__item" key={log._id}>
+              <Link className="logs-list__item-link" to={`/dashboard/logs/${log._id}/edit`}>
+                <p className="logs-list__day">{formatDay(log.created_at)}</p>
+                <p className="logs-list__scores">
+                  Energy {log.energyLevel} - Mood {log.moodLevel} - Sleep {log.sleepLevel}
+                </p>
+                {log.note && <p className="logs-list__note">{log.note}</p>}
+              </Link>
             </li>
-            </ul>
-        </section>
-    )
+          ))}
+        </ul>
+      )}
+    </section>
+  );
 }

@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { getStoredUser, logout } from "../../auth";
 import "./Sidebar.scss";
 
@@ -20,12 +20,37 @@ export default function Sidebar() {
         <div><p className="sidebar__name">{user?.name ?? "User"}</p><p className="sidebar__handle">{user?.email ?? ""}</p></div>
       </div>
       <nav className="sidebar__nav">
-        <a className="sidebar__nav-item sidebar__nav-item--active" href="#">Dashboard</a>
-        <a className="sidebar__nav-item" href="#">Ny logg</a><a className="sidebar__nav-item" href="#">Community</a><a className="sidebar__nav-item" href="#">Profil</a>
-      </nav>
-      <div className="sidebar__streak"><p>Din streak</p><p className="sidebar__streak-number">14</p><p>dagar i rad</p></div>
-      <button type="button" className="sidebar__log-button">+ logga idag</button>
-      <button type="button" className="sidebar__logout-button" onClick={handleLogout}>Log out</button>
+  <NavLink
+    to="/dashboard"
+    end
+    className={({ isActive }) =>
+      `sidebar__nav-item ${isActive ? "sidebar__nav-item--active" : ""}`
+    }
+  >
+    Dashboard
+  </NavLink>
+
+  <a className="sidebar__nav-item" href="#">
+    Community
+  </a>
+  <a className="sidebar__nav-item" href="#">
+    Profile
+  </a>
+</nav>
+
+<div className="sidebar__streak">
+  <p>Your streak</p>
+  <p className="sidebar__streak-number">14</p>
+  <p>days in a row</p>
+</div>
+
+<button
+  type="button"
+  className="sidebar__log-button"
+  onClick={() => navigate("/dashboard/settings")}
+>
+  Settings
+</button>
     </aside>
   );
 }

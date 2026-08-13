@@ -33,9 +33,11 @@ export const router = createBrowserRouter([
           {
             path: '/dashboard',
             element: <DashboardLayout />,
-            children: [{ index: true, element: <Dashboard /> }],
+            children: [
+              { index: true, element: <Dashboard /> },
+              { path: 'settings', element: <Settings /> },
+            ],
           },
-          { path: '/settings', element: <Settings /> },
           { path: '/support', element: <Support /> },
         ],
       },

@@ -1,38 +1,44 @@
+import { LOG_CATEGORIES } from "../../api/logs";
+import type { LogEntry } from "../../api/logs";
 import "./CategoryList.scss";
 
-export default function CategoryList() {
-    return (
-        <section className="category-list">
-            <h2 className="category-list__title">Categories</h2>
-            <p className="category-list__subtitle">Entries this month</p>
+type CategoryListProps = {
+  logs: LogEntry[];
+};
 
-            <ul className="category-list__items">
-        <li className="category-list__row">
-          <span className="category-list__name">Mindfulness</span>
-          <div className="category-list__bar">
-            <div className="category-list__fill" style={{ width: "75%" }} />
-          </div>
-          <span className="category-list__count">3</span>
-        </li>
+export default function CategoryList({ logs }: CategoryListProps) {
+  const now = new Date();
+  const thisMonthLogs = logs.filter((log) => {
+    const date = new Date(log.created_at);
+    return date.getFullYear() === now.getFullYear() && date.getMonth() === now.getMonth();
+  });
 
-        <li className="category-list__row">
-            <span className="category-list__name">Movement</span>
-            <div className="category-list__bar">
-                <div className="category-list__fill" style={{ width: "50%" }} />
-            </div>
-            <span className="category-list__count">2</span>
-        </li>
+  const counts = LOG_CATEGORIES.map((name) => ({
+    name,
+    count: thisMonthLogs.filter((log) => log.category === name).length,
+  }));
+  const maxCount = Math.max(1, ...counts.map((entry) => entry.count));
 
-        <li className="category-list__row">
-            <span className="category-list__name">Nutrition</span>
-            <div className="category-list__bar">
-                <div className="category-list__fill" 
-                style={{ width: "25%", backgroundColor: "#ddbaae" }} 
-                />
-            </div>
-            <span className="category-list__count">1</span>
-        </li>
+  return (
+    <section className="category-list">
+      <h2 className="category-list__title">Categories</h2>
+      <p className="category-list__subtitle">Entries this month</p>
+
+      {thisMonthLogs.length === 0 ? (
+        <p className="category-list__empty">No entries yet this month.</p>
+      ) : (
+        <ul className="category-list__items">
+          {counts.map(({ name, count }) => (
+            <li className="category-list__row" key={name}>
+              <span className="category-list__name">{name}</span>
+              <div className="category-list__bar">
+                <div className="category-list__fill" style={{ width: `${(count / maxCount) * 100}%` }} />
+              </div>
+              <span className="category-list__count">{count}</span>
+            </li>
+          ))}
         </ul>
-        </section>
-    )
+      )}
+    </section>
+  );
 }

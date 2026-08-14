@@ -1,12 +1,10 @@
-import { getDatabase } from '../config/db';
+import { UserModel } from '../types/userTypes';
 import { hashPassword, comparePassword } from '../utils/password';
 import { generateToken } from '../utils/generatetoken';
 import { RegisterRequest, LoginRequest, AuthResponse } from '../types/authTypes';
-import { User } from '../types/userTypes';
 
 export async function registerUser(data: RegisterRequest): Promise<AuthResponse> {
-  const users = (await getDatabase()).collection<User>('users');
-  const existing = await users.findOne({ email: data.email });
+  const existing = await UserModel.findOne({ email: data.email });
 
   if (existing) {
     throw new Error('EMAIL_ALREADY_EXISTS');
@@ -14,9 +12,13 @@ export async function registerUser(data: RegisterRequest): Promise<AuthResponse>
 
   const hashedPassword = await hashPassword(data.password);
 
-  const result = await users.insertOne({ name: data.name, email: data.email, password_hash: hashedPassword, created_at: new Date() } as User);
-  const userId = result.insertedId.toHexString();
+  const user = await UserModel.create({
+    name: data.name,
+    email: data.email,
+    password_hash: hashedPassword,
+  });
 
+  const userId = user._id.toString();
   const token = generateToken({ userId, email: data.email });
 
   return {
@@ -26,8 +28,7 @@ export async function registerUser(data: RegisterRequest): Promise<AuthResponse>
 }
 
 export async function loginUser(data: LoginRequest): Promise<AuthResponse> {
-  const users = (await getDatabase()).collection<User>('users');
-  const user = await users.findOne({ email: data.email });
+  const user = await UserModel.findOne({ email: data.email });
 
   if (!user) {
     throw new Error('INVALID_CREDENTIALS');
@@ -39,7 +40,7 @@ export async function loginUser(data: LoginRequest): Promise<AuthResponse> {
     throw new Error('INVALID_CREDENTIALS');
   }
 
-  const userId = user._id.toHexString();
+  const userId = user._id.toString();
   const token = generateToken({ userId, email: user.email });
 
   return {

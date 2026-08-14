@@ -15,6 +15,11 @@
     color: $color-text-muted;
 }
 
+&__error {
+    margin: 0;
+    color: #a52525;
+}
+
 &__stats-grid {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));

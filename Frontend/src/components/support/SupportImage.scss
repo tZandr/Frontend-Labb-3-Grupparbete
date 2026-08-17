@@ -1,0 +1,11 @@
+@use "../../styles/variables" as *;
+
+.support-image {
+  img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: $radius-xl;
+    box-shadow: 0 8px 24px rgba(53, 64, 36, 0.12);
+  }
+}

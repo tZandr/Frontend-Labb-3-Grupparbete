@@ -1,28 +1,155 @@
-import StatCard from "../components/dashboard/StatCard";
-import "./Dashboard.scss";
-import LogsList from "../components/dashboard/LogsList";
-import CategoryList from "../components/dashboard/CategoryList";
+import { useEffect, useState } from 'react'
+import StatCard from '../components/dashboard/StatCard'
+import LogsList from '../components/dashboard/LogsList'
+import CategoryList from '../components/dashboard/CategoryList'
+import SearchBar from '../components/dashboard/SearchBar'
+import { fetchLogs } from '../api/logs'
+import type { LogEntry } from '../api/logs'
+import { getStoredUser } from '../auth'
+import './Dashboard.scss'
 
-export default function DashboardPage() {
-    return (
-        <section className="dashboard-page">
-            <h1 className="dashboard-page__title">Hello Maja 🌿</h1>
-            <p className="dashboard-page__subtitle">
-                Tuesday June 10 - you've logged 14 days in a row
-                </p>
-
-                <div className="dashboard-page__stats-grid">
-                    <StatCard label="Energy (avg)" value="3.8" trend="↑ from 3.2" />
-                    <StatCard label="Sleep (avg)" value="3.5" trend="→ stable" />
-                    <StatCard label="Mood (avg)" value="4.1" trend="↑ best week" />
-                    <StatCard label="Streak" value="14" trend="days in a row" />
-                </div>
-
-            <div className="dashboard-page__bottom">
-                <LogsList />
-                <CategoryList />
-                </div>
-        </section>
-    );
+function average(values: number[]): number {
+    if (values.length === 0) return 0
+    return values.reduce((sum, value) => sum + value, 0) / values.length
 }
 
+function trendLabel(latest: number, avg: number): string {
+    if (latest > avg) return '↑ above average'
+    if (latest < avg) return '↓ below average'
+    return '→ steady'
+}
+
+function computeStreak(logs: LogEntry[]): number {
+    if (logs.length === 0) return 0
+
+    const days = new Set(
+        logs.map((log) => new Date(log.created_at).toDateString())
+    )
+    const cursor = new Date()
+    if (!days.has(cursor.toDateString())) cursor.setDate(cursor.getDate() - 1)
+
+    let streak = 0
+    while (days.has(cursor.toDateString())) {
+        streak += 1
+        cursor.setDate(cursor.getDate() - 1)
+    }
+    return streak
+}
+
+export default function DashboardPage() {
+    const user = getStoredUser()
+    const [logs, setLogs] = useState<LogEntry[]>([])
+    const [isLoading, setIsLoading] = useState(true)
+    const [error, setError] = useState('')
+    const [searchQuery, setSearchQuery] = useState('')
+
+    useEffect(() => {
+        let cancelled = false
+
+        fetchLogs()
+            .then((data) => {
+                if (!cancelled) setLogs(data)
+            })
+            .catch((caughtError) => {
+                if (!cancelled) {
+                    setError(
+                        caughtError instanceof Error
+                            ? caughtError.message
+                            : 'Unable to load your logs.'
+                    )
+                }
+            })
+            .finally(() => {
+                if (!cancelled) setIsLoading(false)
+            })
+
+        return () => {
+            cancelled = true
+        }
+    }, [])
+
+    const energyAvg = average(logs.map((log) => log.energyLevel))
+    const moodAvg = average(logs.map((log) => log.moodLevel))
+    const sleepAvg = average(logs.map((log) => log.sleepLevel))
+    const streak = computeStreak(logs)
+    const latest = logs[0]
+
+    const firstName = user?.name.split(' ')[0] ?? 'there'
+    const today = new Date().toLocaleDateString(undefined, {
+        weekday: 'long',
+        month: 'long',
+        day: 'numeric'
+    })
+
+    const query = searchQuery.trim().toLowerCase()
+
+    const filteredLogs = query
+        ? logs.filter((log) => {
+            const note = (log.note ?? '').toLowerCase()
+            const focus = log.focusAreas.join(' ').toLowerCase()
+            return note.includes(query) || focus.includes(query)
+        })
+        : logs
+
+    return (
+        <section className="dashboard-page">
+            <h1 className="dashboard-page__title">Hello {firstName} 🌿</h1>
+            <p className="dashboard-page__subtitle">
+                {today} - you've logged {streak} day{streak === 1 ? '' : 's'} in
+                a row
+            </p>
+
+            {error && (
+                <p className="dashboard-page__error" role="alert">
+                    {error}
+                </p>
+            )}
+
+            <div className="dashboard-page__stats-grid">
+                <StatCard
+                    label="Energy (avg)"
+                    value={logs.length ? energyAvg.toFixed(1) : '–'}
+                    trend={
+                        latest
+                            ? trendLabel(latest.energyLevel, energyAvg)
+                            : 'No entries yet'
+                    }
+                />
+                <StatCard
+                    label="Sleep (avg)"
+                    value={logs.length ? sleepAvg.toFixed(1) : '–'}
+                    trend={
+                        latest
+                            ? trendLabel(latest.sleepLevel, sleepAvg)
+                            : 'No entries yet'
+                    }
+                />
+                <StatCard
+                    label="Mood (avg)"
+                    value={logs.length ? moodAvg.toFixed(1) : '–'}
+                    trend={
+                        latest
+                            ? trendLabel(latest.moodLevel, moodAvg)
+                            : 'No entries yet'
+                    }
+                />
+                <StatCard
+                    label="Streak"
+                    value={String(streak)}
+                    trend={streak > 0 ? 'days in a row' : 'log today to start'}
+                />
+            </div>
+
+            <SearchBar value={searchQuery} onChange={setSearchQuery} />
+
+            <div className="dashboard-page__bottom">
+                <LogsList
+                    logs={filteredLogs}
+                    isLoading={isLoading}
+                    activeSearch={query.length > 0}
+                />
+                <CategoryList logs={logs} />
+            </div>
+        </section>
+    )
+}

@@ -4,10 +4,11 @@ import Home from './pages/Home';
 import Profile from './pages/Profile';
 import DashboardLayout from './layouts/dashboard/DashboardLayout';
 import Dashboard from './pages/Dashboard';
+import LogsHistory from './pages/LogsHistory';
+import NewLog from './pages/NewLog';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Settings from './pages/Settings';
-import NewLog from './pages/NewLog';
 import Support from './pages/Support';
 import ProtectedRoute from './components/ProtectedRoute';
 
@@ -27,6 +28,10 @@ export const router = createBrowserRouter([
         path: '/signup',
         element: <Signup />,
       },
+      { 
+        path: '/support',
+        element: <Support />
+      },
       {
         element: <ProtectedRoute />,
         children: [
@@ -36,11 +41,12 @@ export const router = createBrowserRouter([
             children: [
               { index: true, element: <Dashboard /> },
               { path: 'new-log', element: <NewLog /> },
+              { path: 'logs', element: <LogsHistory /> },
+              { path: 'logs/:id/edit', element: <NewLog /> },
+              { path: 'profile', element: <Profile /> },
               { path: 'settings', element: <Settings /> },
-              { path: 'profile', element: <Profile /> }, 
             ],
           },
-          { path: '/support', element: <Support /> },
         ],
       },
     ],

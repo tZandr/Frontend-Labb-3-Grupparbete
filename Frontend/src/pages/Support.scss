@@ -1,0 +1,34 @@
+@use "../styles/variables" as *;
+
+.support-page {
+  min-height: 100vh;
+  background-color: $color-bg;
+  color: $color-text;
+}
+
+.support-hero {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem;
+  align-items: center;
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 800px) {
+  .support-hero {
+    grid-template-columns: 1fr;
+    padding: 2rem 1.5rem;
+
+    .support-image {
+      order: -1;
+    }
+  }
+}

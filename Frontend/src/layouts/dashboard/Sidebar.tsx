@@ -28,6 +28,9 @@ export default function Sidebar() {
       <SidebarNav />
       <SidebarStreak days={14} />
       <SidebarSettingsButton onClick={() => navigate("/dashboard/settings")} />
+      <button type="button" className="sidebar__logout-button" onClick={handleLogout}>
+        Log out
+      </button>
     </aside>
   );
 }

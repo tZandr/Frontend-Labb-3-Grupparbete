@@ -1,0 +1,65 @@
+@use "../../styles/variables" as *;
+
+.support-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-top: 0.5rem;
+
+  label {
+    margin-top: 0.75rem;
+    font-weight: 600;
+    color: $color-text;
+  }
+
+  input,
+  textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid $bone;
+    border-radius: 0.5rem;
+    font: inherit;
+    background: $color-surface;
+    color: $color-text;
+
+    &:focus-visible {
+      outline: 2px solid $color-primary;
+      outline-offset: 2px;
+    }
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 8rem;
+  }
+
+  button {
+    margin-top: 1.25rem;
+    align-self: flex-start;
+    padding: 0.75rem 1.5rem;
+    border: 0;
+    border-radius: $radius-lg;
+    background-color: $color-primary;
+    color: $color-text-on-dark;
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+
+    &:hover,
+    &:focus-visible {
+      background-color: $color-primary-light;
+      outline: 2px solid $color-primary;
+      outline-offset: 2px;
+    }
+  }
+
+  &__success {
+    margin: 1rem 0 0;
+    padding: 1rem 1.25rem;
+    border-radius: $radius-lg;
+    background: $color-surface;
+    color: $color-text;
+    box-shadow: 0 4px 16px rgba(53, 64, 36, 0.08);
+  }
+}

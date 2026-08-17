@@ -10,19 +10,22 @@ export default function CategoryList({ logs }: CategoryListProps) {
   const now = new Date();
   const thisMonthLogs = logs.filter((log) => {
     const date = new Date(log.created_at);
-    return date.getFullYear() === now.getFullYear() && date.getMonth() === now.getMonth();
+    return (
+      date.getFullYear() === now.getFullYear() &&
+      date.getMonth() === now.getMonth()
+    );
   });
 
   const counts = LOG_CATEGORIES.map((name) => ({
     name,
-    count: thisMonthLogs.filter((log) => log.category === name).length,
+    count: thisMonthLogs.filter((log) => log.focusAreas.includes(name)).length,
   }));
   const maxCount = Math.max(1, ...counts.map((entry) => entry.count));
 
   return (
     <section className="category-list">
-      <h2 className="category-list__title">Categories</h2>
-      <p className="category-list__subtitle">Entries this month</p>
+      <h2 className="category-list__title">Focus areas</h2>
+      <p className="category-list__subtitle">Times logged this month</p>
 
       {thisMonthLogs.length === 0 ? (
         <p className="category-list__empty">No entries yet this month.</p>
@@ -32,7 +35,10 @@ export default function CategoryList({ logs }: CategoryListProps) {
             <li className="category-list__row" key={name}>
               <span className="category-list__name">{name}</span>
               <div className="category-list__bar">
-                <div className="category-list__fill" style={{ width: `${(count / maxCount) * 100}%` }} />
+                <div
+                  className="category-list__fill"
+                  style={{ width: `${(count / maxCount) * 100}%` }}
+                />
               </div>
               <span className="category-list__count">{count}</span>
             </li>

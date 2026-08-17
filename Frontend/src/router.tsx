@@ -7,6 +7,7 @@ import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Settings from './pages/Settings';
+import NewLog from './pages/NewLog';
 import Support from './pages/Support';
 import ProtectedRoute from './components/ProtectedRoute';
 
@@ -29,13 +30,16 @@ export const router = createBrowserRouter([
       {
         element: <ProtectedRoute />,
         children: [
-          { path: '/profile', element: <Profile /> },
           {
             path: '/dashboard',
             element: <DashboardLayout />,
-            children: [{ index: true, element: <Dashboard /> }],
+            children: [
+              { index: true, element: <Dashboard /> },
+              { path: 'new-log', element: <NewLog /> },
+              { path: 'settings', element: <Settings /> },
+              { path: 'profile', element: <Profile /> }, 
+            ],
           },
-          { path: '/settings', element: <Settings /> },
           { path: '/support', element: <Support /> },
         ],
       },

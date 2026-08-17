@@ -27,7 +27,7 @@ export default function CategoryList() {
             <span className="category-list__name">Nutrition</span>
             <div className="category-list__bar">
                 <div className="category-list__fill" 
-                style={{ width: "25%", backgroundColor: "#ddbaae" }} 
+                style={{ width: "25%", backgroundColor: "#c48978" }} 
                 />
             </div>
             <span className="category-list__count">1</span>

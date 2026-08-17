@@ -1,5 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import { getStoredUser, logout } from "../../auth";
+import SidebarLogo from "../../components/sidebar/SidebarLogo";
+import SidebarUser from "../../components/sidebar/SidebarUser";
+import SidebarNav from "../../components/sidebar/SidebarNav";
+import SidebarStreak from "../../components/sidebar/SidebarStreak";
+import SidebarSettingsButton from "../../components/sidebar/SidebarSettingsButton";
 import "./Sidebar.scss";
 
 export default function Sidebar() {
@@ -14,18 +19,15 @@ export default function Sidebar() {
 
   return (
     <aside className="sidebar" aria-label="Huvudnavigation">
-      <h1 className="sidebar__logo">Bloom</h1>
-      <div className="sidebar__user">
-        <div className="sidebar__avatar">{initials}</div>
-        <div><p className="sidebar__name">{user?.name ?? "User"}</p><p className="sidebar__handle">{user?.email ?? ""}</p></div>
-      </div>
-      <nav className="sidebar__nav">
-        <a className="sidebar__nav-item sidebar__nav-item--active" href="#">Dashboard</a>
-        <a className="sidebar__nav-item" href="#">Ny logg</a><a className="sidebar__nav-item" href="#">Community</a><a className="sidebar__nav-item" href="#">Profil</a>
-      </nav>
-      <div className="sidebar__streak"><p>Din streak</p><p className="sidebar__streak-number">14</p><p>dagar i rad</p></div>
-      <button type="button" className="sidebar__log-button">+ logga idag</button>
-      <button type="button" className="sidebar__logout-button" onClick={handleLogout}>Log out</button>
+      <SidebarLogo />
+      <SidebarUser
+        name={user?.name ?? "User"}
+        email={user?.email ?? ""}
+        initials={initials}
+      />
+      <SidebarNav />
+      <SidebarStreak days={14} />
+      <SidebarSettingsButton onClick={() => navigate("/dashboard/settings")} />
     </aside>
   );
 }

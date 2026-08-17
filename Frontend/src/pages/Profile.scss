@@ -1,0 +1,146 @@
+@use "../styles/variables" as *;
+
+.profile-page {
+  min-height: calc(100vh - 4rem);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  box-sizing: border-box;
+}
+
+.profile {
+  max-width: 560px;
+  width: 100%;
+  padding: 2rem;
+  background: $color-surface;
+  border: 1px solid $color-accent-soft;
+  border-radius: $radius-xl;
+  box-shadow: 0 12px 32px rgba(53, 64, 36, 0.08);
+  text-align: center;
+
+  &__title {
+    margin: 0 0 0.4rem;
+    color: $color-text;
+    font-size: 2rem;
+    font-weight: 700;
+  }
+
+  &__intro {
+    margin: 0 0 1.75rem;
+    color: $color-text-muted;
+  }
+
+  &__avatar-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  &__avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid $color-accent-soft;
+  }
+
+  &__avatar--placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: $color-primary;
+    color: $color-text-on-dark;
+    font-size: 2rem;
+    font-weight: 700;
+  }
+
+  &__file-input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    overflow: hidden;
+  }
+
+  &__photo-btn {
+    padding: 0.55rem 1rem;
+    border-radius: 999px;
+    border: 1px solid $color-accent-soft;
+    background: #fff;
+    color: $color-text;
+    cursor: pointer;
+    font: inherit;
+  }
+
+  &__email {
+    margin: 0 0 1rem;
+    color: $color-text-muted;
+    font-size: 0.95rem;
+  }
+
+  &__name-row {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  &__name {
+    margin: 0;
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: $color-text;
+  }
+
+  &__edit-btn,
+  &__save-btn,
+  &__cancel-btn {
+    padding: 0.55rem 1rem;
+    border-radius: 999px;
+    font: inherit;
+    cursor: pointer;
+  }
+
+  &__edit-btn,
+  &__save-btn {
+    border: none;
+    background: $color-primary;
+    color: $color-text-on-dark;
+  }
+
+  &__cancel-btn {
+    border: 1px solid $color-accent-soft;
+    background: #fff;
+    color: $color-text;
+  }
+
+  &__name-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    text-align: left;
+  }
+
+  &__label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    color: $color-text;
+    font-weight: 600;
+
+    input {
+      padding: 0.75rem 1rem;
+      border: 1px solid $color-accent-soft;
+      border-radius: $radius-lg;
+      font: inherit;
+    }
+  }
+
+  &__name-actions {
+    display: flex;
+    gap: 0.5rem;
+  }
+}

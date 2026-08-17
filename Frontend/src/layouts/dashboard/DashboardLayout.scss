@@ -7,6 +7,6 @@
   &__main {
     flex: 1;
     padding: 2rem;
-    background-color: $color-bg;
+    background-color: var(--color-bg);
   }
 }

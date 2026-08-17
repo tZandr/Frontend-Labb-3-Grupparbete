@@ -1,7 +1,7 @@
 @use "../../styles/variables" as *;
 
 .logs-list {
-    background-color: $color-surface;
+    background-color: var(--color-surface);
     border-radius: $radius-lg;
     padding: 1.25rem;
     box-shadow: 0 2px 12px rgba(53, 64, 36, 1);
@@ -16,11 +16,11 @@
     &__title {
         margin: 0;
         font-size: 1.1rem;
-        color: $color-text;
+        color: var(--color-text);
     }
 
     &__link {
-        color: $moss-green;
+        color: var(--color-text-muted);
         text-decoration: none;
         font-size: 0.9rem;
     }
@@ -35,8 +35,9 @@
       }
 
       &__item {
+        position: relative;
         padding-bottom: 1rem;
-        border-bottom: 1px solid $peach-protein;
+        border-bottom: 1px solid rgba(221, 186, 174, 0.35);
       }
 
       &__item:last-child {
@@ -44,21 +45,30 @@
         padding-bottom: 0;
       }
 
+      &__edit {
+        position: absolute;
+        top: 0;
+        right: 0;
+        border: none;
+        background: none;
+        cursor: pointer;
+      }
+
       &__day {
         margin: 0 0 0.35rem;
         font-weight: 700;
-        color: $color-text;
+        color: var(--color-text);
       }
 
       &__scores {
         margin: 0 0 0.35rem;
         font-size: 0.9rem;
-        color: $color-text-muted;
+        color: var(--color-text-muted);
       }
 
       &__note {
         margin: 0;
         font-size: 0.95rem;
-        color: $color-text;
+        color: var(--color-text);
       }
 }

@@ -27,6 +27,10 @@ export const router = createBrowserRouter([
         path: '/signup',
         element: <Signup />,
       },
+      { 
+        path: '/support',
+        element: <Support />
+      },
       {
         element: <ProtectedRoute />,
         children: [
@@ -39,7 +43,6 @@ export const router = createBrowserRouter([
               { path: 'logs/:id/edit', element: <NewLog /> },
               { path: 'profile', element: <Profile /> },
               { path: 'settings', element: <Settings /> },
-              { path: 'support', element: <Support /> },
             ],
           },
         ],

@@ -102,7 +102,7 @@ export default function DashboardPage() {
       </div>
 
       <div className="dashboard-page__bottom">
-        <LogsList logs={logs} isLoading={isLoading} />
+        <LogsList logs={logs} isLoading={isLoading} limit={5} />
         <CategoryList logs={logs} />
       </div>
     </section>

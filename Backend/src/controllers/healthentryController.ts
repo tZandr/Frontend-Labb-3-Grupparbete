@@ -7,26 +7,30 @@ function isValidRating(value: unknown): value is number {
   return typeof value === 'number' && value >= 1 && value <= 5;
 }
 
-function isValidCategory(value: unknown): value is LogCategory {
-  return typeof value === 'string' && (LOG_CATEGORIES as readonly string[]).includes(value);
+function isValidFocusAreas(value: unknown): value is LogCategory[] {
+  return (
+    Array.isArray(value) &&
+    value.length > 0 &&
+    value.every((entry) => typeof entry === 'string' && (LOG_CATEGORIES as readonly string[]).includes(entry))
+  );
 }
 
 export async function createLog(req: AuthRequest, res: Response) {
   try {
-    const { energyLevel, moodLevel, sleepLevel, category, note } = req.body;
+    const { energyLevel, moodLevel, sleepLevel, focusAreas, note } = req.body;
 
     if (!isValidRating(energyLevel) || !isValidRating(moodLevel) || !isValidRating(sleepLevel)) {
       return res.status(400).json({ message: 'Energy, mood and sleep must each be a number from 1 to 5' });
     }
-    if (!isValidCategory(category)) {
-      return res.status(400).json({ message: 'A valid category is required' });
+    if (!isValidFocusAreas(focusAreas)) {
+      return res.status(400).json({ message: 'Select at least one focus area' });
     }
 
     const { log, updatedExisting } = await saveTodaysLog(req.user!.userId, {
       energyLevel,
       moodLevel,
       sleepLevel,
-      category,
+      focusAreas,
       note,
     });
 
@@ -67,7 +71,7 @@ export async function getLog(req: AuthRequest, res: Response) {
 
 export async function editLog(req: AuthRequest, res: Response) {
   try {
-    const { energyLevel, moodLevel, sleepLevel, category, note } = req.body;
+    const { energyLevel, moodLevel, sleepLevel, focusAreas, note } = req.body;
     const data: Record<string, unknown> = {};
 
     if (energyLevel !== undefined) {
@@ -82,9 +86,9 @@ export async function editLog(req: AuthRequest, res: Response) {
       if (!isValidRating(sleepLevel)) return res.status(400).json({ message: 'Sleep must be a number from 1 to 5' });
       data.sleepLevel = sleepLevel;
     }
-    if (category !== undefined) {
-      if (!isValidCategory(category)) return res.status(400).json({ message: 'A valid category is required' });
-      data.category = category;
+    if (focusAreas !== undefined) {
+      if (!isValidFocusAreas(focusAreas)) return res.status(400).json({ message: 'Select at least one focus area' });
+      data.focusAreas = focusAreas;
     }
     if (note !== undefined) data.note = note;
 

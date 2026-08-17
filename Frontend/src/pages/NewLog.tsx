@@ -3,6 +3,7 @@ import type { FormEvent } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { deleteLog, fetchLog, fetchLogs, saveTodaysLog, updateLog, LOG_CATEGORIES } from "../api/logs";
 import type { LogCategory } from "../api/logs";
+import { useToast } from "../context/ToastContext";
 import "./NewLog.scss";
 
 function isToday(dateString: string): boolean {
@@ -19,13 +20,13 @@ export default function NewLog() {
   const { id } = useParams<{ id: string }>();
   const isEditMode = Boolean(id);
   const navigate = useNavigate();
+  const { showToast } = useToast();
 
   const [energy, setEnergy] = useState(3);
   const [mood, setMood] = useState(3);
   const [sleep, setSleep] = useState(3);
   const [note, setNote] = useState("");
   const [focusAreas, setFocusAreas] = useState<LogCategory[]>([]);
-  const [statusMessage, setStatusMessage] = useState("");
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isLoading, setIsLoading] = useState(isEditMode);
@@ -84,7 +85,6 @@ export default function NewLog() {
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError("");
-    setStatusMessage("");
 
     if (focusAreas.length === 0) {
       setError("Pick at least one focus area.");
@@ -104,11 +104,12 @@ export default function NewLog() {
     try {
       if (isEditMode && id) {
         await updateLog(id, payload);
+        showToast("Log updated!");
         navigate("/dashboard");
       } else {
         const result = await saveTodaysLog(payload);
-        setStatusMessage(result.message);
-        setTimeout(() => navigate("/dashboard"), 1200);
+        showToast(result.message);
+        navigate("/dashboard");
       }
     } catch (caughtError) {
       setError(caughtError instanceof Error ? caughtError.message : "Unable to save your log. Please try again.");
@@ -236,12 +237,6 @@ export default function NewLog() {
         {error && (
           <p className="new-log__error" role="alert">
             {error}
-          </p>
-        )}
-
-        {statusMessage && (
-          <p className="new-log__success" role="status">
-            {statusMessage}
           </p>
         )}
 

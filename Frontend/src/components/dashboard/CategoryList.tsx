@@ -25,7 +25,7 @@ export default function CategoryList({ logs }: CategoryListProps) {
   return (
     <section className="category-list">
       <h2 className="category-list__title">Focus areas</h2>
-      <p className="category-list__subtitle">Times logged this month</p>
+      <p className="category-list__subtitle">How often each area came up this month</p>
 
       {thisMonthLogs.length === 0 ? (
         <p className="category-list__empty">No entries yet this month.</p>

@@ -9,7 +9,7 @@ export type LogEntry = {
   energyLevel: number;
   moodLevel: number;
   sleepLevel: number;
-  category: LogCategory;
+  focusAreas: LogCategory[];
   note?: string;
   created_at: string;
   updated_at: string;
@@ -19,7 +19,7 @@ export type LogInput = {
   energyLevel: number;
   moodLevel: number;
   sleepLevel: number;
-  category: LogCategory;
+  focusAreas: LogCategory[];
   note?: string;
 };
 

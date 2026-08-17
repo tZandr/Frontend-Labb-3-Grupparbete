@@ -77,14 +77,14 @@
     }
   }
 
-  &__category-group {
+  &__focus-group {
     display: flex;
     margin-top: 0.35rem;
     flex-wrap: wrap;
     gap: 0.5rem;
   }
 
-  &__category-btn {
+  &__focus-btn {
     padding: 0.65rem 1rem;
     border: 1px solid $color-accent-soft;
     border-radius: 999px;
@@ -164,6 +164,16 @@
       cursor: wait;
       opacity: 0.7;
     }
+  }
+
+  &__warning {
+    margin: 0 0 1rem;
+    padding: 0.75rem 1rem;
+    border: 1px solid #c9a227;
+    border-radius: $radius-lg;
+    background: rgba(201, 162, 39, 0.12);
+    color: #7a6011;
+    font-weight: 500;
   }
 
   &__error {

@@ -8,7 +8,7 @@ export interface LogEntry extends Document {
   energyLevel: number;
   moodLevel: number;
   sleepLevel: number;
-  category: LogCategory;
+  focusAreas: LogCategory[];
   note?: string;
   created_at: Date;
   updated_at: Date;
@@ -18,7 +18,7 @@ export interface LogInput {
   energyLevel: number;
   moodLevel: number;
   sleepLevel: number;
-  category: LogCategory;
+  focusAreas: LogCategory[];
   note?: string;
 }
 
@@ -27,7 +27,16 @@ const logSchema = new Schema<LogEntry>({
   energyLevel: { type: Number, required: true, min: 1, max: 5 },
   moodLevel: { type: Number, required: true, min: 1, max: 5 },
   sleepLevel: { type: Number, required: true, min: 1, max: 5 },
-  category: { type: String, required: true, enum: LOG_CATEGORIES },
+  focusAreas: {
+    type: [String],
+    enum: LOG_CATEGORIES,
+    required: true,
+    index: true,
+    validate: {
+      validator: (value: string[]) => Array.isArray(value) && value.length > 0,
+      message: 'Select at least one focus area',
+    },
+  },
   note: { type: String },
   created_at: { type: Date, default: Date.now },
   updated_at: { type: Date, default: Date.now },

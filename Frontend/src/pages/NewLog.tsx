@@ -1,9 +1,19 @@
 import { useEffect, useState } from "react";
 import type { FormEvent } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { deleteLog, fetchLog, saveTodaysLog, updateLog, LOG_CATEGORIES } from "../api/logs";
+import { deleteLog, fetchLog, fetchLogs, saveTodaysLog, updateLog, LOG_CATEGORIES } from "../api/logs";
 import type { LogCategory } from "../api/logs";
 import "./NewLog.scss";
+
+function isToday(dateString: string): boolean {
+  const date = new Date(dateString);
+  const now = new Date();
+  return (
+    date.getFullYear() === now.getFullYear() &&
+    date.getMonth() === now.getMonth() &&
+    date.getDate() === now.getDate()
+  );
+}
 
 export default function NewLog() {
   const { id } = useParams<{ id: string }>();
@@ -14,11 +24,29 @@ export default function NewLog() {
   const [mood, setMood] = useState(3);
   const [sleep, setSleep] = useState(3);
   const [note, setNote] = useState("");
-  const [category, setCategory] = useState<LogCategory>("Mindfulness");
+  const [focusAreas, setFocusAreas] = useState<LogCategory[]>([]);
   const [statusMessage, setStatusMessage] = useState("");
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isLoading, setIsLoading] = useState(isEditMode);
+  const [hasTodaysLog, setHasTodaysLog] = useState(false);
+
+  useEffect(() => {
+    if (isEditMode) return;
+    let cancelled = false;
+
+    fetchLogs()
+      .then((logs) => {
+        if (!cancelled && logs.some((log) => isToday(log.created_at))) {
+          setHasTodaysLog(true);
+        }
+      })
+      .catch(() => {});
+
+    return () => {
+      cancelled = true;
+    };
+  }, [isEditMode]);
 
   useEffect(() => {
     if (!id) return;
@@ -31,7 +59,7 @@ export default function NewLog() {
         setMood(log.moodLevel);
         setSleep(log.sleepLevel);
         setNote(log.note ?? "");
-        setCategory(log.category);
+        setFocusAreas(log.focusAreas);
       })
       .catch((caughtError) => {
         if (!cancelled) {
@@ -47,10 +75,22 @@ export default function NewLog() {
     };
   }, [id]);
 
+  function toggleFocusArea(cat: LogCategory) {
+    setFocusAreas((current) =>
+      current.includes(cat) ? current.filter((entry) => entry !== cat) : [...current, cat],
+    );
+  }
+
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError("");
     setStatusMessage("");
+
+    if (focusAreas.length === 0) {
+      setError("Pick at least one focus area.");
+      return;
+    }
+
     setIsSubmitting(true);
 
     const payload = {
@@ -58,7 +98,7 @@ export default function NewLog() {
       moodLevel: mood,
       sleepLevel: sleep,
       note: note.trim(),
-      category,
+      focusAreas,
     };
 
     try {
@@ -104,6 +144,12 @@ export default function NewLog() {
     <section className="new-log">
       <h1 className="new-log__title">{isEditMode ? "Edit your log" : "Log how you feel today"}</h1>
       <p className="new-log__intro">Fill in how you are feeling</p>
+
+      {!isEditMode && hasTodaysLog && (
+        <p className="new-log__warning" role="alert">
+          You've already logged today — saving will overwrite today's entry.
+        </p>
+      )}
 
       {/*Energy*/}
       <form className="new-log__form" onSubmit={handleSubmit}>
@@ -157,16 +203,17 @@ export default function NewLog() {
           </div>
         </fieldset>
 
-        {/* Category */}
+        {/* Today's focus */}
         <fieldset className="new-log__field">
-          <legend>Category</legend>
-          <div className="new-log__category-group">
+          <legend>Today's focus</legend>
+          <div className="new-log__focus-group">
             {LOG_CATEGORIES.map((cat) => (
               <button
                 key={cat}
                 type="button"
-                className={`new-log__category-btn ${category === cat ? "new-log__category-btn--active" : ""}`}
-                onClick={() => setCategory(cat)}
+                aria-pressed={focusAreas.includes(cat)}
+                className={`new-log__focus-btn ${focusAreas.includes(cat) ? "new-log__focus-btn--active" : ""}`}
+                onClick={() => toggleFocusArea(cat)}
               >
                 {cat}
               </button>

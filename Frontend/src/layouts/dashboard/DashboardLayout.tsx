@@ -1,6 +1,7 @@
 import { Outlet, useNavigate } from "react-router-dom";
 import { logout } from "../../auth";
 import Sidebar from "./Sidebar";
+import OfflineBanner from "./OfflineBanner";
 import { ProfileProvider } from "../../context/ProfileContext";
 import "./DashboardLayout.scss";
 
@@ -17,6 +18,7 @@ export default function DashboardLayout() {
       <div className="dashboard-layout">
         <Sidebar />
         <main className="dashboard-layout__main">
+          <OfflineBanner />
           <Outlet />
           <button
             type="button"

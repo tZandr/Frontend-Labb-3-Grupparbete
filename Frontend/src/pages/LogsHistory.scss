@@ -123,3 +123,11 @@
     color: $color-text;
   }
 }
+
+@media (max-width: 900px) {
+  .logs-history {
+    max-width: none;
+    width: 100%;
+    margin: 0;
+  }
+}

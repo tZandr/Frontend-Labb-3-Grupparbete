@@ -82,3 +82,35 @@
     }
   }
 }
+
+@media (max-width: 800px) {
+  .settings-container {
+    padding: 1rem;
+    align-items: flex-start;
+  }
+
+  .settings {
+    padding: 1.25rem;
+
+    &__title {
+      font-size: 1.6rem;
+    }
+
+    &__button-group {
+      flex-direction: column;
+    }
+
+    &__option-btn {
+      width: 100%;
+      text-align: center;
+    }
+  }
+}
+
+@media (max-width: 900px) {
+  .settings {
+    max-width: none;
+    width: 100%;
+    margin: 0;
+  }
+}

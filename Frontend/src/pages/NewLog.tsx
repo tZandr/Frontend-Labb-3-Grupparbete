@@ -140,15 +140,18 @@ export default function NewLog() {
 
   if (isLoading) {
     return (
-      <section className="new-log">
-        <p>Loading…</p>
-      </section>
+      <div className="new-log-page">
+        <section className="new-log">
+          <p>Loading…</p>
+        </section>
+      </div>
     );
   }
 
   return (
-    <section className="new-log">
-      <NewLogHeader title={isEditMode ? "Edit your log" : "Log how you feel today"} />
+    <div className="new-log-page">
+      <section className="new-log">
+        <NewLogHeader title={isEditMode ? "Edit your log" : "Log how you feel today"} />
 
       {!isEditMode && hasTodaysLog && (
         <p className="new-log__warning" role="alert">
@@ -199,6 +202,7 @@ export default function NewLog() {
           )}
         </div>
       </form>
-    </section>
+      </section>
+    </div>
   );
 }

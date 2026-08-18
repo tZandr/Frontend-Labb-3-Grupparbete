@@ -53,21 +53,6 @@ export function fetchLogs(): Promise<LogEntry[]> {
   return request<LogEntry[]>("/logs");
 }
 
-export function computeStreak(logs: LogEntry[]): number {
-  if (logs.length === 0) return 0;
-
-  const days = new Set(logs.map((log) => new Date(log.created_at).toDateString()));
-  const cursor = new Date();
-  if (!days.has(cursor.toDateString())) cursor.setDate(cursor.getDate() - 1);
-
-  let streak = 0;
-  while (days.has(cursor.toDateString())) {
-    streak += 1;
-    cursor.setDate(cursor.getDate() - 1);
-  }
-  return streak;
-}
-
 export function fetchLog(id: string): Promise<LogEntry> {
   return request<LogEntry>(`/logs/${id}`);
 }

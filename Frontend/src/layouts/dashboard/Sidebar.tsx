@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { logout } from "../../auth";
 import { useProfile } from "../../context/ProfileContext";
-import { useStreak } from "../../hooks/useStreak";
 import SidebarLogo from "../../components/sidebar/SidebarLogo";
 import SidebarUser from "../../components/sidebar/SidebarUser";
 import SidebarNav from "../../components/sidebar/SidebarNav";
@@ -12,7 +11,6 @@ import "./Sidebar.scss";
 export default function Sidebar() {
   const navigate = useNavigate();
   const { name, email, photoUrl } = useProfile();
-  const streak = useStreak();
   const initials = name.split(" ").filter(Boolean).map((part) => part[0]).join("").slice(0, 2).toUpperCase() || "U";
 
   function handleLogout() {
@@ -30,7 +28,7 @@ export default function Sidebar() {
         photoUrl={photoUrl}
       />
       <SidebarNav />
-      <SidebarStreak days={streak} />
+      <SidebarStreak days={14} />
       <SidebarSettingsButton onClick={() => navigate("/dashboard/settings")} />
       <button type="button" className="sidebar__logout-button" onClick={handleLogout}>
         Log out

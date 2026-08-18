@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type { ChangeEvent, FormEvent } from "react";
-import { getStoredUser, USER_STORAGE_KEY } from "../auth";
+import { useProfile } from "../hooks/useProfile";
 import ProfileHeader from "../components/profile/ProfileHeader";
 import ProfileAvatar from "../components/profile/ProfileAvatar";
 import ProfilePhotoUpload from "../components/profile/ProfilePhotoUpload";
@@ -10,11 +10,10 @@ import ProfileEditNameForm from "../components/profile/ProfileEditNameForm";
 import "./Profile.scss"
 
 export default function Profile() {
-  const storedUser = getStoredUser();
+  const { name, email, photoUrl, isLoading, error, updateName, updatePhoto } = useProfile();
 
-  const [name, setName] = useState(storedUser?.name ?? "User");
   const [isEditingName, setIsEditingName] = useState(false);
-  const [photoUrl, setPhotoUrl] = useState<string | null>(null);
+  const [draftName, setDraftName] = useState("");
 
   const initials =
     name
@@ -28,23 +27,24 @@ export default function Profile() {
     function handlePhotoChange(event: ChangeEvent<HTMLInputElement>) {
       const file = event.target.files?.[0];
       if (!file) return;
-
-      const previewUrl = URL.createObjectURL(file);
-      setPhotoUrl(previewUrl);
+      updatePhoto(file);
     }
 
-    function handleNameSubmit(event: FormEvent<HTMLFormElement>) {
+    async function handleNameSubmit(event: FormEvent<HTMLFormElement>) {
       event.preventDefault();
-      const trimmed = name.trim();
+      const trimmed = draftName.trim();
       if (!trimmed) return;
 
-      setName(trimmed);
-      setIsEditingName(false);
+      const success = await updateName(trimmed);
+      if (success) setIsEditingName(false);
+    }
 
-      if (storedUser) {
-        const updatedUser = { ...storedUser, name: trimmed };
-        localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(updatedUser));
-      }
+    if (isLoading) {
+      return (
+        <div className="profile-page">
+          <p>Loading…</p>
+        </div>
+      );
     }
 
     return (
@@ -57,19 +57,22 @@ export default function Profile() {
           <ProfilePhotoUpload photoUrl={photoUrl} onChange={handlePhotoChange} />
          </div>
 
-         <ProfileEmail email={storedUser?.email ?? "No email"} />
+         <ProfileEmail email={email || "No email"} />
+
+         {error && (
+           <p className="profile__error" role="alert">
+             {error}
+           </p>
+         )}
 
          {!isEditingName ? (
-          <ProfileDisplayName name={name} onEdit={() => setIsEditingName(true)} />
+          <ProfileDisplayName name={name} onEdit={() => { setDraftName(name); setIsEditingName(true); }} />
          ) : (
           <ProfileEditNameForm
-            name={name}
-            onNameChange={setName}
+            name={draftName}
+            onNameChange={setDraftName}
             onSubmit={handleNameSubmit}
-            onCancel={() => {
-              setName(storedUser?.name ?? name);
-              setIsEditingName(false);
-            }}
+            onCancel={() => setIsEditingName(false)}
           />
          )}
         </section>

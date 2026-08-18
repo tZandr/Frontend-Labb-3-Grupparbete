@@ -5,7 +5,7 @@ import CategoryList from '../components/dashboard/CategoryList'
 import SearchLogs from '../components/dashboard/SearchLogs'
 import FilterLogs from '../components/dashboard/FilterLogs'
 import SortLogs from '../components/dashboard/SortLogs'
-import { fetchLogs } from '../api/logs'
+import { computeStreak, fetchLogs } from '../api/logs'
 import { useLogControls } from '../hooks/useLogControls'
 import type { LogEntry } from '../api/logs'
 import { getStoredUser } from '../auth'
@@ -20,23 +20,6 @@ function trendLabel(latest: number, avg: number): string {
     if (latest > avg) return '↑ above average'
     if (latest < avg) return '↓ below average'
     return '→ steady'
-}
-
-function computeStreak(logs: LogEntry[]): number {
-    if (logs.length === 0) return 0
-
-    const days = new Set(
-        logs.map((log) => new Date(log.created_at).toDateString())
-    )
-    const cursor = new Date()
-    if (!days.has(cursor.toDateString())) cursor.setDate(cursor.getDate() - 1)
-
-    let streak = 0
-    while (days.has(cursor.toDateString())) {
-        streak += 1
-        cursor.setDate(cursor.getDate() - 1)
-    }
-    return streak
 }
 
 export default function DashboardPage() {

@@ -70,10 +70,9 @@
     }
 
     &--active {
-      background: $color-accent;
-      border-color: $color-accent;
-      color: var(--color-text);
-      box-shadow: 0 6px 14px rgba(221, 186, 174, 0.45);
+      background: $moss-green;
+      border-color: $moss-green;
+      color: $color-text-on-dark;
     }
   }
 
@@ -152,14 +151,14 @@
   &__delete {
     margin-top: 0.25rem;
     padding: 0.85rem 1.4rem;
-    border: 1px solid #a52525;
+    border: none;
     border-radius: 999px;
-    background: transparent;
-    color: #a52525;
+    background: #a52525;
+    color: #fffdf9;
     font: inherit;
     font-weight: 600;
     cursor: pointer;
-
+  
     &:disabled {
       cursor: wait;
       opacity: 0.7;

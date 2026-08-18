@@ -29,6 +29,7 @@ export default function FocusAreaChart({ logs }: FocusAreaChartProps) {
 
   const options = {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: { position: "bottom" as const },
     },
@@ -38,5 +39,9 @@ export default function FocusAreaChart({ logs }: FocusAreaChartProps) {
     return <p className="profile-stats__empty">Log an entry to see your focus areas here.</p>;
   }
 
-  return <Doughnut data={data} options={options} />;
+  return (
+    <div className="profile-stats__canvas-wrap">
+      <Doughnut data={data} options={options} />
+    </div>
+  );
 }

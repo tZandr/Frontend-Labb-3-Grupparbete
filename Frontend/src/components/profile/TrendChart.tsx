@@ -46,6 +46,7 @@ export default function TrendChart({ logs }: TrendChartProps) {
 
   const options = {
     responsive: true,
+    maintainAspectRatio: false,
     scales: {
       y: {
         min: 1,
@@ -62,5 +63,9 @@ export default function TrendChart({ logs }: TrendChartProps) {
     return <p className="profile-stats__empty">Log a few days to see your trends here.</p>;
   }
 
-  return <Line data={data} options={options} />;
+  return (
+    <div className="profile-stats__canvas-wrap">
+      <Line data={data} options={options} />
+    </div>
+  );
 }

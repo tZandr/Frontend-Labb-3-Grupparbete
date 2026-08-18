@@ -5,6 +5,8 @@
   display: grid;
   place-items: center;
   padding: 1.5rem;
+  background-color: $color-bg;
+  color: $color-text;
 }
 
 .login-form {

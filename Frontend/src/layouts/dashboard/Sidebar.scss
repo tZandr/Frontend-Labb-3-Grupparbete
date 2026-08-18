@@ -127,3 +127,29 @@
     }
   }
 }
+
+@media (max-width: 900px) {
+  .sidebar {
+    width: 100%;
+    min-height: auto;
+    padding: 1rem;
+    gap: 1rem;
+  }
+
+  .sidebar__user,
+  .sidebar__streak,
+  .sidebar__log-button,
+  .sidebar__logout-button {
+    display: none;
+  }
+
+  .sidebar__nav {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .sidebar__nav-item {
+    padding: 0.55rem 0.8rem;
+  }
+}

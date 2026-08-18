@@ -1,0 +1,84 @@
+@use "../styles/variables" as *;
+
+
+.settings-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    box-sizing: border-box;
+  }
+
+.settings {
+  max-width: 760px;
+  width: 100%;
+  margin: 0;
+  padding: 2rem;
+  background: var(--color-surface);
+  border: 1px solid $color-accent-soft;
+  border-radius: $radius-xl;
+  box-shadow: 0 12px 32px rgba(53, 64, 36, 0.08);
+
+  &__title {
+    margin: 0 0 0.4rem;
+    color: var(--color-text);
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.15;
+  }
+
+  &__intro {
+    margin: 0 0 1.75rem;
+    color: var(--color-text);
+    opacity: 0.75;
+    font-size: 1rem;
+  }
+
+  &__group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    margin-bottom: 1.5rem;
+  }
+
+  &__label {
+    margin: 0;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--color-text);
+    opacity: 0.75;
+  }
+
+  &__button-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  &__option-btn {
+    padding: 0.65rem 1rem;
+    border: 1px solid $color-accent-soft;
+    border-radius: 999px;
+    background: var(--color-surface);
+    color: var(--color-text);
+    font: inherit;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.18s ease;
+
+    &:hover {
+      border-color: $color-accent;
+      transform: translateY(-1px);
+    }
+
+    &--active {
+      background: $color-primary;
+      border-color: $color-primary;
+      color: $color-text-on-dark;
+      box-shadow: 0 6px 14px rgba(53, 64, 36, 0.2);
+    }
+  }
+}

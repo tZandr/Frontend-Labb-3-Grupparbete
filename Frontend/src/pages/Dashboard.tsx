@@ -85,10 +85,10 @@ export default function DashboardPage() {
 
     const filteredLogs = query
         ? logs.filter((log) => {
-              const note = (log.note ?? '').toLowerCase()
-              const category = (log.category ?? '').toLowerCase()
-              return note.includes(query) || category.includes(query)
-          })
+            const note = (log.note ?? '').toLowerCase()
+            const focus = log.focusAreas.join(' ').toLowerCase()
+            return note.includes(query) || focus.includes(query)
+        })
         : logs
 
     return (

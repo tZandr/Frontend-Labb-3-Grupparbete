@@ -81,6 +81,12 @@
     font-size: 0.95rem;
   }
 
+  &__error {
+    margin: 0 0 1rem;
+    color: #a52525;
+    font-weight: 500;
+  }
+
   &__name-row {
     display: flex;
     flex-direction: column;

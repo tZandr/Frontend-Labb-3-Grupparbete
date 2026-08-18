@@ -1,6 +1,7 @@
 import { Outlet, useNavigate } from "react-router-dom";
 import { logout } from "../../auth";
 import Sidebar from "./Sidebar";
+import { ProfileProvider } from "../../context/ProfileContext";
 import "./DashboardLayout.scss";
 
 export default function DashboardLayout() {
@@ -12,18 +13,20 @@ export default function DashboardLayout() {
   }
 
   return (
-    <div className="dashboard-layout">
-      <Sidebar />
-      <main className="dashboard-layout__main">
-        <Outlet />
-        <button
-          type="button"
-          className="dashboard-layout__logout"
-          onClick={handleLogout}
-        >
-          Log out
-        </button>
-      </main>
-    </div>
+    <ProfileProvider>
+      <div className="dashboard-layout">
+        <Sidebar />
+        <main className="dashboard-layout__main">
+          <Outlet />
+          <button
+            type="button"
+            className="dashboard-layout__logout"
+            onClick={handleLogout}
+          >
+            Log out
+          </button>
+        </main>
+      </div>
+    </ProfileProvider>
   );
 }

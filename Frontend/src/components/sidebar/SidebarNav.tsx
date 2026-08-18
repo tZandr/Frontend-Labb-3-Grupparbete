@@ -21,7 +21,7 @@ export default function SidebarNav() {
       >
         New log
       </NavLink>
-      
+
       <NavLink
         to="/dashboard/profile"
         className={({ isActive }) =>

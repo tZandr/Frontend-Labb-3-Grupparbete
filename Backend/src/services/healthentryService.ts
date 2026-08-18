@@ -52,7 +52,7 @@ export async function updateLog(
   const log = await LogModel.findOneAndUpdate(
     { _id: logId, userId },
     { ...data, updated_at: new Date() },
-    { new: true, runValidators: true },
+    { returnDocument: 'after', runValidators: true },
   );
   if (!log) throw new Error('LOG_NOT_FOUND');
   return log;

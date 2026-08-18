@@ -7,6 +7,7 @@ import ProfilePhotoUpload from "../components/profile/ProfilePhotoUpload";
 import ProfileEmail from "../components/profile/ProfileEmail";
 import ProfileDisplayName from "../components/profile/ProfileDisplayName";
 import ProfileEditNameForm from "../components/profile/ProfileEditNameForm";
+import ProfileStats from "../components/profile/ProfileStats";
 import "./Profile.scss"
 
 export default function Profile() {
@@ -76,6 +77,8 @@ export default function Profile() {
           />
          )}
         </section>
+
+        <ProfileStats />
       </div>
     )
 }

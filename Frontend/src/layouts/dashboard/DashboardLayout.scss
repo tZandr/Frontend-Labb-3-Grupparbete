@@ -3,9 +3,12 @@
 .dashboard-layout {
   display: flex;
   min-height: 100vh;
+  min-height: 100dvh;
+  overflow-x: hidden;
 
   &__main {
-    flex: 1 0 auto;
+    flex: 1 1 auto;
+    min-width: 0;
     padding: 2rem;
     background-color: var(--color-bg);
   }

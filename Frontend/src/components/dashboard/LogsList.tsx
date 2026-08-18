@@ -83,6 +83,9 @@ export default function LogsList({
                                 className="logs-list__item-link"
                                 to={`/dashboard/logs/${log._id}/edit`}
                             >
+                                <span className="logs-list__edit" aria-hidden="true">
+                                ✎
+                                </span>
                                 <p className="logs-list__day">
                                     {formatDay(log.created_at)}
                                 </p>

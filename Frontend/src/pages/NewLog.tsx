@@ -3,6 +3,11 @@ import type { FormEvent } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { deleteLog, fetchLog, fetchLogs, saveTodaysLog, updateLog, LOG_CATEGORIES } from "../api/logs";
 import type { LogCategory } from "../api/logs";
+import NewLogHeader from "../components/new-log/NewLogHeader";
+import ScaleField from "../components/new-log/ScaleField";
+import NoteField from "../components/new-log/NoteField";
+import SaveLogButton from "../components/new-log/SaveLogButton";
+import SavedMessage from "../components/new-log/SavedMessage";
 import "./NewLog.scss";
 
 function isToday(dateString: string): boolean {
@@ -142,8 +147,7 @@ export default function NewLog() {
 
   return (
     <section className="new-log">
-      <h1 className="new-log__title">{isEditMode ? "Edit your log" : "Log how you feel today"}</h1>
-      <p className="new-log__intro">Fill in how you are feeling</p>
+      <NewLogHeader title={isEditMode ? "Edit your log" : "Log how you feel today"} />
 
       {!isEditMode && hasTodaysLog && (
         <p className="new-log__warning" role="alert">
@@ -151,57 +155,10 @@ export default function NewLog() {
         </p>
       )}
 
-      {/*Energy*/}
       <form className="new-log__form" onSubmit={handleSubmit}>
-        <fieldset className="new-log__field">
-          <legend>Energy</legend>
-          <div className="new-log__scale">
-            {[1, 2, 3, 4, 5].map((value) => (
-              <button
-                key={value}
-                type="button"
-                className={`new-log__scale-btn ${energy === value ? "new-log__scale-btn--active" : ""}`}
-                onClick={() => setEnergy(value)}
-              >
-                {value}
-              </button>
-            ))}
-          </div>
-        </fieldset>
-
-        {/*Mood*/}
-        <fieldset className="new-log__field">
-          <legend>Mood</legend>
-          <div className="new-log__scale">
-            {[1, 2, 3, 4, 5].map((value) => (
-              <button
-                key={value}
-                type="button"
-                className={`new-log__scale-btn ${mood === value ? "new-log__scale-btn--active" : ""}`}
-                onClick={() => setMood(value)}
-              >
-                {value}
-              </button>
-            ))}
-          </div>
-        </fieldset>
-
-        {/*Sleep*/}
-        <fieldset className="new-log__field">
-          <legend>Sleep</legend>
-          <div className="new-log__scale">
-            {[1, 2, 3, 4, 5].map((value) => (
-              <button
-                key={value}
-                type="button"
-                className={`new-log__scale-btn ${sleep === value ? "new-log__scale-btn--active" : ""}`}
-                onClick={() => setSleep(value)}
-              >
-                {value}
-              </button>
-            ))}
-          </div>
-        </fieldset>
+        <ScaleField legend="Energy" value={energy} onChange={setEnergy} />
+        <ScaleField legend="Mood" value={mood} onChange={setMood} />
+        <ScaleField legend="Sleep" value={sleep} onChange={setSleep} />
 
         {/* Today's focus */}
         <fieldset className="new-log__field">
@@ -221,17 +178,7 @@ export default function NewLog() {
           </div>
         </fieldset>
 
-        {/*Note*/}
-        <label className="new-log__field" htmlFor="note">
-          Note (optional)
-          <textarea
-            id="note"
-            value={note}
-            onChange={(event) => setNote(event.target.value)}
-            placeholder="Ex. I had a great day"
-            rows={4}
-          />
-        </label>
+        <NoteField value={note} onChange={setNote} />
 
         {error && (
           <p className="new-log__error" role="alert">
@@ -239,16 +186,12 @@ export default function NewLog() {
           </p>
         )}
 
-        {statusMessage && (
-          <p className="new-log__success" role="status">
-            {statusMessage}
-          </p>
-        )}
+        <SavedMessage message={statusMessage} />
 
         <div className="new-log__actions">
-          <button type="submit" className="new-log__submit" disabled={isSubmitting}>
+          <SaveLogButton disabled={isSubmitting}>
             {isSubmitting ? "Saving…" : isEditMode ? "Save changes" : "Save log"}
-          </button>
+          </SaveLogButton>
 
           {isEditMode && (
             <button type="button" className="new-log__delete" onClick={handleDelete} disabled={isSubmitting}>

@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import type { FormEvent } from "react";
 
 type ProfileEditNameFormProps = {
@@ -13,11 +14,18 @@ export default function ProfileEditNameForm({
   onSubmit,
   onCancel,
 }: ProfileEditNameFormProps) {
+  const nameInputRef = useRef<HTMLInputElement | null>(null);
+
+  useEffect(() => {
+    nameInputRef.current?.focus();
+  }, []);
+
   return (
     <form className="profile__name-form" onSubmit={onSubmit}>
       <label className="profile__label" htmlFor="profile-name">
         Display name
-        <input
+          <input
+          ref={nameInputRef}
           id="profile-name"
           value={name}
           onChange={(event) => onNameChange(event.target.value)}

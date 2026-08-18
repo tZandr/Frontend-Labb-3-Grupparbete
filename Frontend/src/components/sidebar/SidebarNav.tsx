@@ -21,10 +21,7 @@ export default function SidebarNav() {
       >
         New log
       </NavLink>
-
-      <a className="sidebar__nav-item" href="#">
-        Community
-      </a>
+      
       <NavLink
         to="/dashboard/profile"
         className={({ isActive }) =>
@@ -32,6 +29,15 @@ export default function SidebarNav() {
         }
       >
         Profile
+      </NavLink>
+
+      <NavLink
+        to="/dashboard/settings"
+        className={({ isActive }) =>
+          `sidebar__nav-item ${isActive ? "sidebar__nav-item--active" : ""}`
+        }
+      >
+        Settings
       </NavLink>
     </nav>
   );

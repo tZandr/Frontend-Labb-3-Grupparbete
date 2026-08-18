@@ -1,35 +1,10 @@
-import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { fetchLogs } from "../api/logs";
-import type { LogEntry } from "../api/logs";
+import { useLogs } from "../hooks/useLogs";
 import { formatLogDay } from "../utils/date";
 import "./LogsHistory.scss";
 
 export default function LogsHistory() {
-  const [logs, setLogs] = useState<LogEntry[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState("");
-
-  useEffect(() => {
-    let cancelled = false;
-
-    fetchLogs()
-      .then((data) => {
-        if (!cancelled) setLogs(data);
-      })
-      .catch((caughtError) => {
-        if (!cancelled) {
-          setError(caughtError instanceof Error ? caughtError.message : "Unable to load your logs.");
-        }
-      })
-      .finally(() => {
-        if (!cancelled) setIsLoading(false);
-      });
-
-    return () => {
-      cancelled = true;
-    };
-  }, []);
+  const { logs, isLoading, error } = useLogs();
 
   return (
     <section className="logs-history">

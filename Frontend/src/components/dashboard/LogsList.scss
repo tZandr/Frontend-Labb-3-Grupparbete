@@ -17,7 +17,7 @@
         margin: 0;
         font-size: 1.1rem;
         font-weight: 700;
-        color: $color-text;
+        color: var(--color-text);
         text-decoration: none;
 
         &:hover {
@@ -29,7 +29,7 @@
         border: none;
         background: none;
         padding: 0;
-        color: $moss-green;
+        color: var(--color-text);
         text-decoration: none;
         font: inherit;
         font-size: 0.9rem;
@@ -77,8 +77,13 @@
         position: absolute;
         top: 0;
         right: 0;
-        font-size: 1rem;
-        color: $moss-green;
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--color-text);
+      }
+      
+      &__day {
+        padding-right: 3rem;
       }
 
       &__empty {
@@ -87,7 +92,7 @@
         font-size: 0.95rem;
 
         a {
-          color: $moss-green;
+          color: var(--color-text);
           font-weight: 600;
         }
       }

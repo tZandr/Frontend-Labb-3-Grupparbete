@@ -17,11 +17,14 @@
         margin: 0;
         font-size: 1.1rem;
         font-weight: 700;
-        color: $color-text;
-        text-decoration: none;
 
-        &:hover {
-            text-decoration: underline;
+        a {
+            color: $color-text;
+            text-decoration: none;
+
+            &:hover {
+                text-decoration: underline;
+            }
         }
     }
 

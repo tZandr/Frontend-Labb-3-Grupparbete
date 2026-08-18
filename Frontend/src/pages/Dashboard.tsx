@@ -1,18 +1,13 @@
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useMemo } from 'react'
 import StatCard from '../components/dashboard/StatCard'
 import LogsList from '../components/dashboard/LogsList'
 import CategoryList from '../components/dashboard/CategoryList'
-<<<<<<< HEAD
-import SearchBar from '../components/dashboard/SearchBar'
-=======
 import SearchLogs from '../components/dashboard/SearchLogs'
 import FilterLogs from '../components/dashboard/FilterLogs'
 import SortLogs from '../components/dashboard/SortLogs'
-import { fetchLogs } from '../api/logs'
-import { useLogControls } from '../hooks/useLogControls'
->>>>>>> origin/dev
 import type { LogEntry } from '../api/logs'
 import { useLogs } from '../hooks/useLogs'
+import { useLogControls } from '../hooks/useLogControls'
 import { getStoredUser } from '../auth'
 import './Dashboard.scss'
 
@@ -46,15 +41,7 @@ function computeStreak(logs: LogEntry[]): number {
 
 export default function DashboardPage() {
     const user = getStoredUser()
-<<<<<<< HEAD
     const { logs, isLoading, error } = useLogs()
-    const [searchQuery, setSearchQuery] = useState('')
-    const handleSearchChange = useCallback((value: string) => {
-        setSearchQuery(value)
-=======
-    const [logs, setLogs] = useState<LogEntry[]>([])
-    const [isLoading, setIsLoading] = useState(true)
-    const [error, setError] = useState('')
 
     const {
         searchQuery,
@@ -66,46 +53,9 @@ export default function DashboardPage() {
         visibleLogs
     } = useLogControls(logs)
 
-    useEffect(() => {
-        let cancelled = false
-
-        fetchLogs()
-            .then((data) => {
-                if (!cancelled) setLogs(data)
-            })
-            .catch((caughtError) => {
-                if (!cancelled) {
-                    setError(
-                        caughtError instanceof Error
-                            ? caughtError.message
-                            : 'Unable to load your logs.'
-                    )
-                }
-            })
-            .finally(() => {
-                if (!cancelled) setIsLoading(false)
-            })
-
-        return () => {
-            cancelled = true
-        }
->>>>>>> origin/dev
-    }, [])
-
-
-    const query = useMemo(() => searchQuery.trim().toLowerCase(), [searchQuery])
-
-    const filteredLogs = useMemo(
-        () =>
-            query
-                ? logs.filter((log) => {
-                      const note = (log.note ?? '').toLowerCase()
-                      const focus = log.focusAreas.join(' ').toLowerCase()
-                      return note.includes(query) || focus.includes(query)
-                  })
-                : logs,
-        [logs, query]
-    )
+    const handleSearchChange = useCallback((value: string) => {
+        setSearchQuery(value)
+    }, [setSearchQuery])
 
     const energyAvg = useMemo(() => average(logs.map((log) => log.energyLevel)), [logs])
     const moodAvg = useMemo(() => average(logs.map((log) => log.moodLevel)), [logs])
@@ -156,13 +106,9 @@ export default function DashboardPage() {
                 />
             </div>
 
-<<<<<<< HEAD
-            <SearchBar value={searchQuery} onChange={handleSearchChange} />
-=======
-            <SearchLogs value={searchQuery} onChange={setSearchQuery} />
+            <SearchLogs value={searchQuery} onChange={handleSearchChange} />
             <FilterLogs value={focusFilter} onChange={setFocusFilter} />
             <SortLogs value={sortOption} onChange={setSortOption} />
->>>>>>> origin/dev
 
             <div className="dashboard-page__bottom">
                 <LogsList

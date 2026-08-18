@@ -1,0 +1,235 @@
+@use "../styles/variables" as *;
+
+.new-log-page {
+  min-height: calc(100vh - 4rem);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  box-sizing: border-box;
+}
+
+.new-log {
+  max-width: 760px;
+  width: 100%;
+  padding: 2rem;
+  background: var(--color-surface);
+  border: 1px solid $color-accent-soft;
+  border-radius: $radius-xl;
+  box-shadow: 0 12px 32px rgba(53, 64, 36, 0.08);
+
+  &__title {
+    margin: 0 0 0.4rem;
+    color: var(--color-text);
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.15;
+  }
+
+  &__intro {
+    margin: 0 0 1.5rem;
+    color: var(--color-text-muted);
+    font-size: 1rem;
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  &__field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    border: none;
+    margin: 0;
+    padding: 0;
+
+    legend {
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+    }
+  }
+
+  &__scale {
+    display: flex;
+    width: 100%;
+    gap: 0.45rem;
+  }
+
+  &__scale-btn {
+    flex: 1;
+    min-height: 2.8rem;
+    border: 1px solid $color-accent-soft;
+    border-radius: 0.65rem;
+    background: var(--color-surface);
+    color: var(--color-text);
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.18s ease;
+
+    &:hover {
+      border-color: $color-accent;
+      transform: translateY(-1px);
+    }
+
+    &--active {
+      background: $moss-green;
+      border-color: $moss-green;
+      color: $color-text-on-dark;
+    }
+  }
+
+  &__focus-group {
+    display: flex;
+    margin-top: 0.35rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  &__focus-btn {
+    padding: 0.65rem 1rem;
+    border: 1px solid $color-accent-soft;
+    border-radius: 999px;
+    background: var(--color-surface);
+    color: var(--color-text);
+    font: inherit;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.18s ease;
+
+    &--active {
+      background: $color-primary;
+      border-color: $color-primary;
+      color: $color-text-on-dark;
+    }
+  }
+
+  select,
+  textarea {
+    width: 100%;
+    padding: 0.85rem 1rem;
+    border: 1px solid $color-accent-soft;
+    border-radius: $radius-lg;
+    background: var(--color-surface);
+    color: var(--color-text);
+    font: inherit;
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 110px;
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  &__submit {
+    align-self: flex-start;
+    margin-top: 0.25rem;
+    padding: 0.85rem 1.4rem;
+    border: none;
+    border-radius: 999px;
+    background: $color-primary;
+    color: $color-text-on-dark;
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.15s ease, opacity 0.2s ease;
+
+    &:hover {
+      transform: translateY(-1px);
+      opacity: 0.95;
+    }
+
+    &:disabled {
+      cursor: wait;
+      opacity: 0.7;
+      transform: none;
+    }
+  }
+
+  &__delete {
+    margin-top: 0.25rem;
+    padding: 0.85rem 1.4rem;
+    border: none;
+    border-radius: 999px;
+    background: #a52525;
+    color: #fffdf9;
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+  
+    &:disabled {
+      cursor: wait;
+      opacity: 0.7;
+    }
+  }
+
+  &__warning {
+    margin: 0 0 1rem;
+    padding: 0.75rem 1rem;
+    border: 1px solid #c9a227;
+    border-radius: $radius-lg;
+    background: rgba(201, 162, 39, 0.12);
+    color: #7a6011;
+    font-weight: 500;
+  }
+
+  &__error {
+    margin: 0;
+    color: #a52525;
+    font-weight: 500;
+  }
+
+
+  &__success {
+    margin: 0;
+    color: $color-primary;
+    font-weight: 500;
+  }
+}
+
+@media (max-width: 900px) {
+  .new-log-page {
+    min-height: 0;
+    align-items: flex-start;
+    padding: 1rem;
+  }
+
+  .new-log {
+    max-width: none;
+    padding: 1.25rem;
+
+    &__title {
+      font-size: 1.6rem;
+    }
+
+    &__intro {
+      margin-bottom: 0.75rem;
+    }
+
+    &__form {
+      gap: 1rem;
+    }
+
+    &__focus-group {
+      margin-top: 0;
+    }
+
+    &__focus-btn {
+      flex: 1;
+      padding: 0.55rem 0.4rem;
+      font-size: 0.85rem;
+      text-align: center;
+    }
+  }
+}

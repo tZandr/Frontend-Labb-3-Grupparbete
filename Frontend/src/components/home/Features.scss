@@ -1,0 +1,69 @@
+// Features grid — three dashboard-style cards for Sleep, Mood and Training.
+@use "../../styles/variables" as *;
+
+.features {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 3.5rem;
+
+  &__intro {
+    text-align: center;
+    max-width: 40rem;
+    margin: 0 auto 2rem;
+
+    h2 {
+      margin: 0 0 0.5rem;
+      color: $color-text;
+      font-size: clamp(1.5rem, 3vw, 2rem);
+    }
+
+    p {
+      margin: 0;
+      color: $color-text-muted;
+    }
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.25rem;
+  }
+}
+
+.feature-card {
+  background-color: $color-surface;
+  border-radius: $radius-xl;
+  padding: 1rem;
+  box-shadow: 0 2px 12px rgba(53, 64, 36, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+
+  // Same crop style as the first version (cover), just a slightly taller frame
+  &__image {
+    width: 100%;
+    aspect-ratio: 5 / 4;
+    object-fit: cover;
+    object-position: center;
+    border-radius: $radius-lg;
+    display: block;
+  }
+
+  &__title {
+    margin: 0;
+    color: $color-text;
+    font-size: 1.25rem;
+  }
+
+  &__text {
+    margin: 0;
+    color: $color-text-muted;
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 800px) {
+  .features__grid {
+    grid-template-columns: 1fr;
+  }
+}

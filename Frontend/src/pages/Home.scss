@@ -1,0 +1,8 @@
+// Homepage wrapper
+@use "../styles/variables" as *;
+
+.home-page {
+  min-height: 100vh;
+  background-color: $color-bg; // bone white
+  color: $color-text;
+}

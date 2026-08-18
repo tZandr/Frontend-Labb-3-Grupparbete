@@ -1,13 +1,8 @@
-import mysql from 'mysql2/promise'
-import dotenv from "dotenv"
+import mongoose from 'mongoose';
 
-dotenv.config();
+export async function connectToDatabase(): Promise<typeof mongoose> {
+  const uri = process.env.MONGODB_URI;
+  if (!uri) throw new Error('MONGODB_URI is not configured');
 
-const db = mysql.createPool({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME
-})
-
-export default db;
+  return mongoose.connect(uri, { dbName: process.env.MONGODB_DB ?? 'Bloom' });
+}

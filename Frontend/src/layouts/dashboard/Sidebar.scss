@@ -1,0 +1,169 @@
+@use "../../styles/variables" as *;
+
+.sidebar {
+  width: $sidebar-width;
+  min-height: 100vh;
+  background-color: $color-primary;
+  color: $color-text-on-dark;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+
+  &__logo {
+    font-family: Georgia, serif;
+    font-size: 1.5rem;
+    margin: 0;
+  }
+
+  &__user {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin: -0.5rem;
+    padding: 0.5rem;
+    border-radius: $radius-lg;
+    color: inherit;
+    text-decoration: none;
+    transition: background-color 0.15s ease;
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.08);
+    }
+
+    &:focus-visible {
+      outline: 2px solid $peach-protein;
+      outline-offset: 2px;
+    }
+  }
+
+  &__avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: $moss-green;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+
+  &__name {
+    margin: 0;
+    font-weight: 600;
+  }
+
+  &__handle {
+    margin: 0;
+    font-size: 0.875rem;
+    opacity: 0.8;
+  }
+
+  &__nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  &__nav-item {
+    padding: 0.75rem 1rem;
+    border-radius: $radius-lg;
+    color: $color-text-on-dark;
+    text-decoration: none;
+
+    &--active {
+      background-color: $moss-green;
+    }
+
+    &:focus-visible {
+      outline: 2px solid $peach-protein;
+      outline-offset: 2px;
+    }
+  }
+
+  &__streak {
+    text-align: center;
+    padding: 1rem;
+    border-radius: $radius-lg;
+    background-color: rgba(255, 255, 255, 0.08);
+  }
+
+  &__streak-number {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0;
+  }
+
+  &__log-button {
+    margin-top: auto;
+    padding: 1rem;
+    border: none;
+    border-radius: $radius-xl;
+    background-color: $moss-green;
+    color: $color-text-on-dark;
+    font-size: 1rem;
+    cursor: pointer;
+
+    &:focus-visible {
+      outline: 2px solid $peach-protein;
+      outline-offset: 2px;
+    }
+  }
+
+  &__logout-button {
+    padding: 0.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    border-radius: $radius-lg;
+    background: transparent;
+    color: $color-text-on-dark;
+    cursor: pointer;
+    font: inherit;
+
+    &:focus-visible {
+      outline: 2px solid $peach-protein;
+      outline-offset: 2px;
+    }
+  }
+}
+
+@media (max-width: 900px) {
+  .sidebar {
+    width: 100%;
+    min-height: auto;
+    padding: 1rem;
+    gap: 1rem;
+  }
+
+  .sidebar__user,
+  .sidebar__streak,
+  .sidebar__log-button,
+  .sidebar__logout-button {
+    display: none;
+  }
+
+  .sidebar__nav {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .sidebar__nav-item {
+    padding: 0.55rem 0.8rem;
+  }
+
+  @media (max-width: 420px) {
+    .sidebar__nav {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.4rem;
+    }
+  
+    .sidebar__nav-item {
+      text-align: center;
+      padding: 0.5rem 0.35rem;
+      font-size: 0.8rem;
+    }
+  }
+}

@@ -2,8 +2,11 @@ import { useEffect, useState } from 'react'
 import StatCard from '../components/dashboard/StatCard'
 import LogsList from '../components/dashboard/LogsList'
 import CategoryList from '../components/dashboard/CategoryList'
-import SearchBar from '../components/dashboard/SearchBar'
+import SearchLogs from '../components/dashboard/SearchLogs'
+import FilterLogs from '../components/dashboard/FilterLogs'
+import SortLogs from '../components/dashboard/SortLogs'
 import { fetchLogs } from '../api/logs'
+import { useLogControls } from '../hooks/useLogControls'
 import type { LogEntry } from '../api/logs'
 import { getStoredUser } from '../auth'
 import './Dashboard.scss'
@@ -41,7 +44,16 @@ export default function DashboardPage() {
     const [logs, setLogs] = useState<LogEntry[]>([])
     const [isLoading, setIsLoading] = useState(true)
     const [error, setError] = useState('')
-    const [searchQuery, setSearchQuery] = useState('')
+
+    const {
+        searchQuery,
+        setSearchQuery,
+        focusFilter,
+        setFocusFilter,
+        sortOption,
+        setSortOption,
+        visibleLogs
+    } = useLogControls(logs)
 
     useEffect(() => {
         let cancelled = false
@@ -80,16 +92,6 @@ export default function DashboardPage() {
         month: 'long',
         day: 'numeric'
     })
-
-    const query = searchQuery.trim().toLowerCase()
-
-    const filteredLogs = query
-        ? logs.filter((log) => {
-              const note = (log.note ?? '').toLowerCase()
-              const category = (log.category ?? '').toLowerCase()
-              return note.includes(query) || category.includes(query)
-          })
-        : logs
 
     return (
         <section className="dashboard-page">
@@ -140,13 +142,17 @@ export default function DashboardPage() {
                 />
             </div>
 
-            <SearchBar value={searchQuery} onChange={setSearchQuery} />
+            <SearchLogs value={searchQuery} onChange={setSearchQuery} />
+            <FilterLogs value={focusFilter} onChange={setFocusFilter} />
+            <SortLogs value={sortOption} onChange={setSortOption} />
 
             <div className="dashboard-page__bottom">
                 <LogsList
-                    logs={filteredLogs}
+                    logs={visibleLogs}
                     isLoading={isLoading}
-                    activeSearch={query.length > 0}
+                    activeSearch={
+                        searchQuery.length > 0 || focusFilter !== 'all'
+                    }
                 />
                 <CategoryList logs={logs} />
             </div>

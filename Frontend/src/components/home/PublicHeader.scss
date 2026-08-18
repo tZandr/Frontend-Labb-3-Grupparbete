@@ -1,7 +1,7 @@
 @use "../../styles/variables" as *;
 
 .public-header {
-  background-color: $color-accent; // pink-beige
+  background-color: $color-accent;
   border-bottom: 1px solid rgba(53, 64, 36, 0.1);
   position: sticky;
   top: 0;

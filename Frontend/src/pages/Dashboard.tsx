@@ -1,13 +1,9 @@
-import { useCallback, useMemo } from 'react'
+import { useMemo } from 'react'
 import StatCard from '../components/dashboard/StatCard'
 import LogsList from '../components/dashboard/LogsList'
 import CategoryList from '../components/dashboard/CategoryList'
-import SearchLogs from '../components/dashboard/SearchLogs'
-import FilterLogs from '../components/dashboard/FilterLogs'
-import SortLogs from '../components/dashboard/SortLogs'
 import type { LogEntry } from '../api/logs'
 import { useLogs } from '../hooks/useLogs'
-import { useLogControls } from '../hooks/useLogControls'
 import { getStoredUser } from '../auth'
 import './Dashboard.scss'
 
@@ -43,23 +39,18 @@ export default function DashboardPage() {
     const user = getStoredUser()
     const { logs, isLoading, error } = useLogs()
 
-    const {
-        searchQuery,
-        setSearchQuery,
-        focusFilter,
-        setFocusFilter,
-        sortOption,
-        setSortOption,
-        visibleLogs
-    } = useLogControls(logs)
-
-    const handleSearchChange = useCallback((value: string) => {
-        setSearchQuery(value)
-    }, [setSearchQuery])
-
-    const energyAvg = useMemo(() => average(logs.map((log) => log.energyLevel)), [logs])
-    const moodAvg = useMemo(() => average(logs.map((log) => log.moodLevel)), [logs])
-    const sleepAvg = useMemo(() => average(logs.map((log) => log.sleepLevel)), [logs])
+    const energyAvg = useMemo(
+        () => average(logs.map((log) => log.energyLevel)),
+        [logs]
+    )
+    const moodAvg = useMemo(
+        () => average(logs.map((log) => log.moodLevel)),
+        [logs]
+    )
+    const sleepAvg = useMemo(
+        () => average(logs.map((log) => log.sleepLevel)),
+        [logs]
+    )
     const streak = useMemo(() => computeStreak(logs), [logs])
     const latest = logs[0]
 
@@ -74,7 +65,8 @@ export default function DashboardPage() {
         <section className="dashboard-page">
             <h1 className="dashboard-page__title">Hello {firstName} 🌿</h1>
             <p className="dashboard-page__subtitle">
-                {today} - you've logged {streak} day{streak === 1 ? '' : 's'} in a row
+                {today} - you've logged {streak} day{streak === 1 ? '' : 's'} in
+                a row
             </p>
 
             {error && (
@@ -87,17 +79,29 @@ export default function DashboardPage() {
                 <StatCard
                     label="Energy (avg)"
                     value={logs.length ? energyAvg.toFixed(1) : '–'}
-                    trend={latest ? trendLabel(latest.energyLevel, energyAvg) : 'No entries yet'}
+                    trend={
+                        latest
+                            ? trendLabel(latest.energyLevel, energyAvg)
+                            : 'No entries yet'
+                    }
                 />
                 <StatCard
                     label="Sleep (avg)"
                     value={logs.length ? sleepAvg.toFixed(1) : '–'}
-                    trend={latest ? trendLabel(latest.sleepLevel, sleepAvg) : 'No entries yet'}
+                    trend={
+                        latest
+                            ? trendLabel(latest.sleepLevel, sleepAvg)
+                            : 'No entries yet'
+                    }
                 />
                 <StatCard
                     label="Mood (avg)"
                     value={logs.length ? moodAvg.toFixed(1) : '–'}
-                    trend={latest ? trendLabel(latest.moodLevel, moodAvg) : 'No entries yet'}
+                    trend={
+                        latest
+                            ? trendLabel(latest.moodLevel, moodAvg)
+                            : 'No entries yet'
+                    }
                 />
                 <StatCard
                     label="Streak"
@@ -106,18 +110,8 @@ export default function DashboardPage() {
                 />
             </div>
 
-            <SearchLogs value={searchQuery} onChange={handleSearchChange} />
-            <FilterLogs value={focusFilter} onChange={setFocusFilter} />
-            <SortLogs value={sortOption} onChange={setSortOption} />
-
             <div className="dashboard-page__bottom">
-                <LogsList
-                    logs={visibleLogs}
-                    isLoading={isLoading}
-                    activeSearch={
-                        searchQuery.length > 0 || focusFilter !== 'all'
-                    }
-                />
+                <LogsList logs={logs} isLoading={isLoading} />
                 <CategoryList logs={logs} />
             </div>
         </section>

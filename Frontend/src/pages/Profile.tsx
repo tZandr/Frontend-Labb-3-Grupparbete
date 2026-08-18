@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type { ChangeEvent, FormEvent } from "react";
-import { useProfile } from "../hooks/useProfile";
+import { useProfile } from "../context/ProfileContext";
 import ProfileHeader from "../components/profile/ProfileHeader";
 import ProfileAvatar from "../components/profile/ProfileAvatar";
 import ProfilePhotoUpload from "../components/profile/ProfilePhotoUpload";

@@ -1,7 +1,20 @@
-import { useEffect, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useState } from "react";
+import type { ReactNode } from "react";
 import { fetchMyProfile, updateMyProfile, resolveAvatarUrl } from "../api/profile";
 
-export function useProfile() {
+type ProfileContextValue = {
+  name: string;
+  email: string;
+  photoUrl: string | null;
+  isLoading: boolean;
+  error: string;
+  updateName: (newName: string) => Promise<boolean>;
+  updatePhoto: (file: File) => Promise<void>;
+};
+
+const ProfileContext = createContext<ProfileContextValue | undefined>(undefined);
+
+export function ProfileProvider({ children }: { children: ReactNode }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [photoUrl, setPhotoUrl] = useState<string | null>(null);
@@ -32,7 +45,7 @@ export function useProfile() {
     };
   }, []);
 
-  async function updateName(newName: string): Promise<boolean> {
+  const updateName = useCallback(async (newName: string): Promise<boolean> => {
     setError("");
     try {
       const user = await updateMyProfile({ name: newName });
@@ -42,9 +55,9 @@ export function useProfile() {
       setError(caughtError instanceof Error ? caughtError.message : "Unable to update your name.");
       return false;
     }
-  }
+  }, []);
 
-  async function updatePhoto(file: File) {
+  const updatePhoto = useCallback(async (file: File) => {
     setError("");
     const previewUrl = URL.createObjectURL(file);
     setPhotoUrl(previewUrl);
@@ -55,7 +68,17 @@ export function useProfile() {
     } catch (caughtError) {
       setError(caughtError instanceof Error ? caughtError.message : "Unable to update your photo.");
     }
-  }
+  }, []);
 
-  return { name, email, photoUrl, isLoading, error, updateName, updatePhoto };
+  return (
+    <ProfileContext.Provider value={{ name, email, photoUrl, isLoading, error, updateName, updatePhoto }}>
+      {children}
+    </ProfileContext.Provider>
+  );
+}
+
+export function useProfile(): ProfileContextValue {
+  const context = useContext(ProfileContext);
+  if (!context) throw new Error("useProfile must be used within a ProfileProvider");
+  return context;
 }

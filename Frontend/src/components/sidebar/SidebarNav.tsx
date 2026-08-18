@@ -25,14 +25,6 @@ export default function SidebarNav() {
       <a className="sidebar__nav-item" href="#">
         Community
       </a>
-      <NavLink
-        to="/dashboard/profile"
-        className={({ isActive }) =>
-          `sidebar__nav-item ${isActive ? "sidebar__nav-item--active" : ""}`
-        }
-      >
-        Profile
-      </NavLink>
     </nav>
   );
 }

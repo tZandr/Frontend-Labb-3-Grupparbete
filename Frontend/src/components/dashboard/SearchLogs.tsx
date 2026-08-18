@@ -1,11 +1,11 @@
-type SearchBarProps = {
+type SearchLogsProps = {
     value: string
     onChange: (value: string) => void
 }
 
-export default function SearchBar({ value, onChange }: SearchBarProps) {
+export default function SearchLogs({ value, onChange }: SearchLogsProps) {
     return (
-        <div className="search-bar">
+        <div className="search-logs">
             <label htmlFor="search-logs">Search Logs:</label>
             <input
                 type="search"

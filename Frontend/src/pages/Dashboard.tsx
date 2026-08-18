@@ -2,7 +2,7 @@ import { useMemo } from 'react'
 import StatCard from '../components/dashboard/StatCard'
 import LogsList from '../components/dashboard/LogsList'
 import CategoryList from '../components/dashboard/CategoryList'
-import type { LogEntry } from '../api/logs'
+import { computeStreak } from '../api/logs'
 import { useLogs } from '../hooks/useLogs'
 import { getStoredUser } from '../auth'
 import './Dashboard.scss'
@@ -16,23 +16,6 @@ function trendLabel(latest: number, avg: number): string {
     if (latest > avg) return '↑ above average'
     if (latest < avg) return '↓ below average'
     return '→ steady'
-}
-
-function computeStreak(logs: LogEntry[]): number {
-    if (logs.length === 0) return 0
-
-    const days = new Set(
-        logs.map((log) => new Date(log.created_at).toDateString())
-    )
-    const cursor = new Date()
-    if (!days.has(cursor.toDateString())) cursor.setDate(cursor.getDate() - 1)
-
-    let streak = 0
-    while (days.has(cursor.toDateString())) {
-        streak += 1
-        cursor.setDate(cursor.getDate() - 1)
-    }
-    return streak
 }
 
 export default function DashboardPage() {

@@ -23,15 +23,6 @@ export default function SidebarNav() {
       </NavLink>
 
       <NavLink
-        to="/dashboard/profile"
-        className={({ isActive }) =>
-          `sidebar__nav-item ${isActive ? "sidebar__nav-item--active" : ""}`
-        }
-      >
-        Profile
-      </NavLink>
-
-      <NavLink
         to="/dashboard/settings"
         className={({ isActive }) =>
           `sidebar__nav-item ${isActive ? "sidebar__nav-item--active" : ""}`

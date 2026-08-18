@@ -1,0 +1,55 @@
+@use "../../styles/variables" as *;
+
+.pwa-install {
+  max-width: 760px;
+  width: 100%;
+  margin: 0;
+  padding: 1.5rem 2rem;
+  background: var(--color-surface);
+  border: 1px dashed $color-accent-soft;
+  border-radius: $radius-xl;
+
+  &__label {
+    margin: 0 0 0.4rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--color-text);
+    opacity: 0.75;
+  }
+
+  &__hint {
+    margin: 0;
+    color: var(--color-text);
+    opacity: 0.75;
+    font-size: 0.9rem;
+  }
+
+  &__btn {
+    margin-top: 0.75rem;
+    padding: 0.65rem 1.25rem;
+    border: 1px solid $color-accent-soft;
+    border-radius: 999px;
+    background: var(--color-surface);
+    color: var(--color-text);
+    font: inherit;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.18s ease;
+
+    &:hover {
+      border-color: $color-accent;
+      transform: translateY(-1px);
+    }
+  }
+}
+
+@media (max-width: 900px) {
+  .pwa-install {
+    max-width: none;
+    width: 100%;
+    margin: 0;
+    padding: 1.25rem 1.5rem;
+  }
+}
